@@ -2,6 +2,12 @@
 
 A single-file, portrait-first HTML break screen for Ukulele Tuesday that displays a big "will resume in" headline, a giant countdown timer, a progress bar, and a prominent donation call-to-action with QR code for quick mobile scans.
 
+## 🚀 Live Demo
+
+**Try it now**: https://ukuleletuesday.github.io/break-page/
+
+The break timer is live on GitHub Pages for immediate access. Bookmark this URL or add it to your home screen for quick access during events!
+
 ## Features
 
 ### 🎯 **Core Functionality**
@@ -42,6 +48,12 @@ A single-file, portrait-first HTML break screen for Ukulele Tuesday that display
 
 ## Quick Start
 
+### Option 1: Use Live Version
+1. **Visit** https://ukuleletuesday.github.io/break-page/ 
+2. **Bookmark or add to Home Screen** for quick access
+3. **Go fullscreen** (F11) for best projector experience
+
+### Option 2: Download & Host
 1. **Download** `index.html` to your device
 2. **Open** in any modern web browser
 3. **Go fullscreen** (F11) for best projector experience
@@ -73,22 +85,22 @@ Everything is customizable via URL parameters:
 
 **Basic 10-minute timer:**
 ```
-index.html?minutes=10
+https://ukuleletuesday.github.io/break-page/?minutes=10
 ```
 
 **Custom messaging:**
 ```
-index.html?title=Jazz%20Night%20will%20resume%20in&subtitle=Quick%20intermission&minutes=8
+https://ukuleletuesday.github.io/break-page/?title=Jazz%20Night%20will%20resume%20in&subtitle=Quick%20intermission&minutes=8
 ```
 
 **Light theme with custom donation:**
 ```
-index.html?theme=light&ctaText=Support%20Us&ctaUrl=https://example.com/donate&qr=0
+https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&ctaUrl=https://example.com/donate&qr=0
 ```
 
 **With logo:**
 ```
-index.html?logo=logo.svg&minutes=12
+https://ukuleletuesday.github.io/break-page/?logo=logo.svg&minutes=12
 ```
 
 ## Usage Tips
