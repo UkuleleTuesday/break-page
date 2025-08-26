@@ -1,0 +1,354 @@
+<!--
+Ukulele Tuesday – Break Timer + Donate (projector-ready)
+Single-file HTML. Open in a browser (F11 for fullscreen).
+
+URL params (optional):
+  minutes   – total minutes for the countdown (default: 15)
+  title     – headline (default: "Ukulele Tuesday will resume in")
+  subtitle  – small line above timer (default: "We’re on a short break")
+  ctaText   – button text (default: "Donate now")
+  ctaUrl    – donation link (default: https://buymeacoffee.com/UkuleleTuesday)
+  note      – line under the button (e.g., "Every €5 prints a songbook")
+  theme     – "dark" (default) | "light"
+  qr        – "1" to show QR (default: 1)
+  logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
+
+Keyboard controls:
+  Space   – pause/resume
+  ↑ / ↓   – +1 min / −1 min
+  R       – reset
+  E       – +30 sec (extend)
+
+If you want this totally offline, the QR <img> uses a public QR service.
+Ping me if you want me to swap in an embedded generator.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  $1  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b1221" />
+<title>Ukulele Tuesday – Break Timer</title>
+  <style>
+    :root{
+      --bg: #0f8b81;          /* PRIMARY background as requested */
+      --fg: #ffffff;          /* foreground on teal */
+      --muted: rgba(255,255,255,.85);
+      --accent:#ffffff;       /* accents default to white for contrast */
+      --accent2:#e8fff9;      /* soft highlight */
+      --btn:#0f8b81;          /* button text (on white) */
+      --btnbg:#ffffff;        /* button bg */
+      --card: rgba(0,0,0,.12);/* subtle glass card on teal */
+      --shadow: 0 16px 46px rgba(0,0,0,.28);
+    }
+    .light{
+      --bg:#f6fbff;
+      --bg2:#e6f2fb;
+      --fg:#0b1221;
+      --muted:#4b587a;
+      --accent:#137a5c;
+      --accent2:#0b78b5;
+      --btn:#ffffff;
+      --btnbg:#0b78b5;
+      --card:#ffffffd0;
+      --shadow: 0 16px 40px rgba(11,18,33,.15);
+    }
+    html,body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--fg); background: var(--bg);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .wrap{ width:min(980px, 94vw); padding:clamp(16px,3.5vw,40px) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); margin-inline:auto; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap:clamp(16px,3.2vw,28px); align-items:center; justify-items:stretch; }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{ background:var(--card); backdrop-filter: blur(8px); border-radius:24px; padding:clamp(16px,2.5vw,32px); box-shadow:var(--shadow); }
+
+    header{ display:flex; align-items:center; gap:16px; margin-bottom:10px; }
+    header img{ height:72px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); }
+    .brand h1{ font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; }
+    .brand .sub{ color:var(--muted); font-weight:500; font-size: clamp(14px,1.6vw,18px); }
+
+    .headline{ font-size: clamp(18px,3.6vmin,28px); color:var(--muted); margin: 12px 0 6px; text-align:center; }
+    .timer{ font-variant-numeric: tabular-nums; letter-spacing:.02em; font-weight:900; text-shadow:0 10px 30px rgba(0,0,0,.35);
+            font-size: clamp(80px, 18vmin, 240px); line-height: .95; text-align:center; }
+    .resume{ font-size: clamp(16px,3.8vmin,24px); color: var(--muted); margin-top:8px; text-align:center; }
+
+    .cta-area{ display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; }
+    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(18px,4.2vmin,26px); padding:18px 26px; border-radius:999px; 
+              background: var(--btnbg); color: var(--btn);
+              box-shadow: 0 10px 28px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.35);
+              transform: translateZ(0); transition: transform .08s ease, filter .15s ease; }
+    .cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+    .cta-btn:active{ transform: translateY(0); }
+
+    .cta-small{ color:var(--muted); font-size: clamp(13px,3vmin,16px); }
+    .qr{ display:grid; place-items:center; width:min(60vw, 420px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); }
+    .qr img{ width:100%; height:100%; object-fit:contain; border-radius:12px; }
+
+    .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .chip{ background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); padding:8px 12px; border-radius:999px; color:var(--fg);
+           font-weight:700; cursor:pointer; user-select:none; }
+
+    .progress{ height:10px; background: rgba(255,255,255,.22); border-radius:999px; overflow:hidden; margin: 18px auto 0; width:min(900px, 90%); }
+    .bar{ height:100%; width:0%; background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,.65)); transition: width .2s linear; }
+
+    .back{ font-size: clamp(24px,6vw,64px); color: var(--accent2); font-weight:900; letter-spacing:.4px; text-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .blink{ animation: blink 1.8s steps(2,start) infinite; }
+    @keyframes blink { 50% { opacity: .35; } }
+
+    footer{ margin-top: 14px; color:var(--muted); font-size: 14px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+    footer .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: rgba(255,255,255,.08);
+                 padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.15); }
+    /* iPad touch/overlay styles */
+    .hint{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:50}
+    .hint-inner{background:var(--card);padding:24px 28px;border-radius:20px;box-shadow:var(--shadow);text-align:center;max-width:90vw}
+    .h-title{font-weight:900;font-size:clamp(16px,2.2vw,22px);margin-bottom:6px}
+    .h-rows{color:var(--muted);font-size:clamp(14px,1.8vw,18px);display:grid;gap:4px;margin-bottom:10px}
+    .h-dismiss{font-size:13px;color:var(--muted)}
+    .toast{position:fixed;left:50%;bottom:6vh;transform:translateX(-50%);background:var(--card);padding:10px 14px;border-radius:999px;box-shadow:var(--shadow);font-weight:800;z-index:60;display:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="grid">
+      <section class="card" aria-live="polite">
+        <header>
+          <img id="logo" alt="Ukulele Tuesday logo" style="display:none" />
+          <div class="brand">
+            <div class="sub" id="subtitle">We’re on a short break</div>
+            <h1 id="title">Ukulele Tuesday will resume in</h1>
+          </div>
+        </header>
+
+        <div class="headline" id="headline">Tip: every €5 prints a songbook</div>
+        <div class="timer" id="timer" role="timer" aria-live="polite">15:00</div>
+        <div class="resume" id="resumeText"></div>
+
+        <div class="progress"><div class="bar" id="bar"></div></div>
+
+        <div class="controls">
+          <div class="chip" id="pauseBtn">Pause</div>
+          <div class="chip" id="plus1">+1 min</div>
+          <div class="chip" id="minus1">−1 min</div>
+          <div class="chip" id="extend30">+30 sec</div>
+          $1  <div class="chip" id="wakeLockBtn">Awake: OFF</div>
+        </div>
+      </section>
+
+      <aside class="card cta-area">
+        <div id="qrWrap" class="qr" style="display:none">
+          <img id="qr" alt="Scan to donate" />
+        </div>
+        <a id="cta" class="cta-btn" href="#" target="_blank" rel="noopener">Donate now</a>
+        <div class="cta-small" id="ctaNote">Scan the code or tap the button</div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>Keyboard: <span class="kbd">Space</span> pause • <span class="kbd">↑/↓</span> ±1m • <span class="kbd">E</span> +30s • <span class="kbd">R</span> reset</div>
+      <div id="ctaUrlEcho" class="cta-small"></div>
+    </footer>
+  </div>
+
+    <div id="touchHint" class="hint" style="display:none">
+      <div class="hint-inner">
+        <div class="h-title">Touch controls</div>
+        <div class="h-rows">
+          <div>Tap anywhere: <b>Pause/Resume</b></div>
+          <div>Double‑tap: <b>+30s</b></div>
+          <div>Long‑press: <b>+1m</b></div>
+          <div>Two‑finger tap: <b>−30s</b></div>
+        </div>
+        <div class="h-dismiss">Tap to dismiss</div>
+      </div>
+    </div>
+    <div id="toast" class="toast"></div>
+
+  <script>
+    const qs = new URLSearchParams(location.search);
+    const defaults = {
+      minutes: 15,
+      title: 'Ukulele Tuesday will resume in',
+      subtitle: 'We\u2019re on a short break',
+      headline: 'Tip: every \u20ac5 prints a songbook',
+      ctaText: 'Donate now',
+      ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
+      note: 'Scan the code or tap the button',
+      theme: 'dark',
+      qr: '1',
+      logo: ''
+    };
+
+    const cfg = {
+      minutes: parseFloat(qs.get('minutes') || qs.get('m') || defaults.minutes) || defaults.minutes,
+      title: qs.get('title') || defaults.title,
+      subtitle: qs.get('subtitle') || defaults.subtitle,
+      headline: qs.get('headline') || defaults.headline,
+      ctaText: qs.get('ctaText') || defaults.ctaText,
+      ctaUrl: qs.get('ctaUrl') || defaults.ctaUrl,
+      note: qs.get('note') || defaults.note,
+      theme: (qs.get('theme') || defaults.theme).toLowerCase(),
+      qr: (qs.get('qr') || defaults.qr),
+      logo: qs.get('logo') || defaults.logo
+    };
+
+    if (cfg.theme === 'light') document.body.classList.add('light');
+
+    // Fill static text
+    document.getElementById('title').textContent = cfg.title;
+    document.getElementById('subtitle').textContent = cfg.subtitle;
+    document.getElementById('headline').textContent = cfg.headline;
+    document.getElementById('cta').textContent = cfg.ctaText;
+    document.getElementById('cta').href = cfg.ctaUrl;
+    document.getElementById('ctaNote').textContent = cfg.note;
+    document.getElementById('ctaUrlEcho').textContent = cfg.ctaUrl;
+
+    // Logo (optional)
+    if (cfg.logo){
+      const l = document.getElementById('logo'); l.src = cfg.logo; l.style.display = 'block';
+    }
+
+    // QR (optional)
+    const qrWrap = document.getElementById('qrWrap');
+    if (cfg.qr !== '0'){
+      const qrImg = document.getElementById('qr');
+      const encoded = encodeURIComponent(cfg.ctaUrl);
+      // Public QR service (online). For an offline projector variant, swap this for an embedded generator.
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=480x480&data=${encoded}`;
+      qrWrap.style.display = 'grid';
+    }
+
+    // Timer logic
+    let totalMs = Math.max(0, Math.round(cfg.minutes * 60 * 1000));
+    const startTotalMs = totalMs;
+    let remainingMs = totalMs;
+    let paused = false;
+    let lastTs = performance.now();
+
+    const timerEl = document.getElementById('timer');
+    const resumeEl = document.getElementById('resumeText');
+    const bar = document.getElementById('bar');
+
+    const fmt = (ms)=>{
+      const s = Math.max(0, Math.floor(ms/1000));
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      return `${mm}:${ss}`;
+    };
+
+    const updateEcho = ()=>{
+      const backAt = new Date(Date.now() + remainingMs);
+      const opts = { hour: '2-digit', minute: '2-digit' };
+      resumeEl.textContent = remainingMs>0 ? `Back at ${backAt.toLocaleTimeString([], opts)}` : '';
+    }
+
+    const render = ()=>{
+      timerEl.textContent = fmt(remainingMs);
+      const done = 1 - (remainingMs / Math.max(1,startTotalMs));
+      bar.style.width = `${(done*100).toFixed(2)}%`;
+      updateEcho();
+      if (remainingMs <= 0){
+        timerEl.classList.add('back','blink');
+        timerEl.textContent = 'WE\u2019RE BACK!';
+        resumeEl.textContent = '';
+        document.getElementById('headline').textContent = 'Grab your uke! Let\u2019s play.';
+      }
+    };
+
+    const tick = (ts)=>{
+      if (!paused && remainingMs>0){
+        const dt = ts - lastTs;
+        remainingMs = Math.max(0, remainingMs - dt);
+        render();
+      }
+      lastTs = ts;
+      requestAnimationFrame(tick);
+    };
+
+    // Controls
+    function addMs(ms){ remainingMs = Math.max(0, remainingMs + ms); totalMs = Math.max(0, totalMs + ms); render(); }
+    function setPaused(p){ paused = p; document.getElementById('pauseBtn').textContent = p ? 'Resume' : 'Pause'; }
+
+    document.getElementById('pauseBtn').addEventListener('click', ()=> setPaused(!paused));
+    document.getElementById('plus1').addEventListener('click', ()=> addMs(60_000));
+    document.getElementById('minus1').addEventListener('click', ()=> addMs(-60_000));
+    document.getElementById('extend30').addEventListener('click', ()=> addMs(30_000));
+    document.getElementById('resetBtn').addEventListener('click', ()=>{ remainingMs = totalMs = startTotalMs; timerEl.classList.remove('back','blink'); render(); });
+
+    window.addEventListener('keydown', (e)=>{
+      if (e.code === 'Space') { e.preventDefault(); setPaused(!paused); }
+      else if (e.key === 'ArrowUp') addMs(60_000);
+      else if (e.key === 'ArrowDown') addMs(-60_000);
+      else if (e.key.toLowerCase() === 'e') addMs(30_000);
+      else if (e.key.toLowerCase() === 'r') { remainingMs = totalMs = startTotalMs; timerEl.classList.remove('back','blink'); render(); }
+    });
+
+    // --- iPad/mobile enhancements ---
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints>0;
+
+    // Toast helper
+    const toastEl = document.getElementById('toast');
+    function showToast(txt){ if(!toastEl) return; toastEl.textContent = txt; toastEl.style.display='block'; clearTimeout(showToast.t); showToast.t=setTimeout(()=>toastEl.style.display='none', 900); }
+
+    // Wake Lock toggle
+    let wakeLock = null, wakeOn = false; const wakeBtn = document.getElementById('wakeLockBtn');
+    async function setWake(on){
+      if (!('wakeLock' in navigator)) { showToast('No Wake Lock'); return; }
+      try{
+        if (on && !wakeLock){
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeBtn.textContent = 'Awake: ON';
+          wakeLock.addEventListener('release', ()=>{ wakeBtn.textContent='Awake: OFF'; wakeLock=null; });
+        } else if (!on && wakeLock){
+          await wakeLock.release(); wakeBtn.textContent='Awake: OFF'; wakeLock=null;
+        }
+      }catch(e){ showToast('Wake Lock error'); }
+    }
+    wakeBtn?.addEventListener('click', ()=>{ wakeOn=!wakeOn; setWake(wakeOn); });
+    document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible' && wakeOn && !wakeLock){ setWake(true); } });
+
+    // Touch gestures (tap = pause/resume, double tap = +30s, long press = +1m, two-finger tap = -30s)
+    function isInteractive(target){ return target.closest('.controls, a, .qr, .cta-area'); }
+    let lastTap=0, longTimer=null, startTime=0, twoFinger=false;
+
+    document.addEventListener('touchstart', (e)=>{
+      if (isInteractive(e.target)) return;
+      startTime = Date.now();
+      twoFinger = e.touches?.length===2;
+      longTimer = setTimeout(()=>{ addMs(60_000); showToast('+1m'); longTimer=null; }, 600);
+    }, {passive:true});
+
+    document.addEventListener('touchend', (e)=>{
+      if (isInteractive(e.target)) return;
+      const dur = Date.now()-startTime;
+      if (longTimer){ clearTimeout(longTimer); longTimer=null; }
+      if (twoFinger && dur<220){ addMs(-30_000); showToast('−30s'); twoFinger=false; return; }
+      if (dur<250){
+        const now=Date.now();
+        if (now-lastTap<300){ addMs(30_000); showToast('+30s'); lastTap=0; }
+        else { setPaused(!paused); lastTap=now; }
+      }
+    }, {passive:true});
+
+    // QR fallback if the remote image fails
+    document.getElementById('qr')?.addEventListener('error', ()=>{
+      const wrap=document.getElementById('qrWrap');
+      if (wrap){ wrap.innerHTML = '<div class="cta-small">Open: '+cfg.ctaUrl+'</div>'; }
+    });
+
+    // First-run touch hint
+    const hint = document.getElementById('touchHint');
+    if (isTouch && hint && !localStorage.getItem('ut_hint_v1')){
+      hint.style.display='flex';
+      const hide=()=>{ hint.style.display='none'; localStorage.setItem('ut_hint_v1','1'); };
+      hint.addEventListener('click', hide);
+      setTimeout(hide, 6000);
+    }
+
+    render();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
