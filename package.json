@@ -1,0 +1,20 @@
+{
+  "name": "ukulele-tuesday-break-timer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ukulele Tuesday – Break Timer + Donate (projector-ready)",
+  "main": "index.html",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [
+    "ukulele",
+    "timer"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.2.1"
+  }
+}
