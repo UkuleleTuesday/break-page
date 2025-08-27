@@ -40,12 +40,6 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 - **Wake Lock API** integration to prevent screen from sleeping during breaks
 - **No Safari chrome** when added to home screen on iOS
 
-### ⌨️ **Keyboard Controls** (Secondary)
-- **Space**: Pause/Resume
-- **↑/↓ arrows**: ±1 minute
-- **E**: Extend by 30 seconds  
-- **R**: Reset timer
-
 ## Quick Start
 
 ### Option 1: Use Live Version
