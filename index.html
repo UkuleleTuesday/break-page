@@ -26,7 +26,7 @@ Ping me if you want me to swap in an embedded generator.
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  $1  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#0b1221" />
 <title>Ukulele Tuesday – Break Timer</title>
@@ -57,17 +57,22 @@ Ping me if you want me to swap in an embedded generator.
     html,body{
       margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
       color:var(--fg); background: var(--bg);
-      display:flex; align-items:center; justify-content:center;
+      display:flex; align-items:center; justify-content:center; min-height:100vh;
     }
     .wrap{ width:min(980px, 94vw); padding:clamp(16px,3.5vw,40px) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); margin-inline:auto; }
     .grid{ display:grid; grid-template-columns: 1fr; gap:clamp(16px,3.2vw,28px); align-items:center; justify-items:stretch; }
-    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+    
+    /* iPad Portrait optimization */
+    @media (max-width: 900px) and (orientation: portrait), (max-height: 1200px) and (orientation: portrait){ 
+      .grid{ grid-template-columns: 1fr; gap: clamp(12px, 2.5vw, 20px); } 
+      .wrap{ width: min(750px, 92vw); padding: clamp(12px, 2.5vw, 24px); }
+    }
 
     .card{ background:var(--card); backdrop-filter: blur(8px); border-radius:24px; padding:clamp(16px,2.5vw,32px); box-shadow:var(--shadow); }
 
     header{ display:flex; align-items:center; gap:16px; margin-bottom:10px; }
-    header img{ height:72px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); }
-    .brand h1{ font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; }
+    header img{ height:72px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); display: block; margin: 0 auto; }
+    .brand h1{ font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; text-align: center; }
     .brand .sub{ color:var(--muted); font-weight:500; font-size: clamp(14px,1.6vw,18px); }
 
     .headline{ font-size: clamp(18px,3.6vmin,28px); color:var(--muted); margin: 12px 0 6px; text-align:center; }
@@ -76,15 +81,15 @@ Ping me if you want me to swap in an embedded generator.
     .resume{ font-size: clamp(16px,3.8vmin,24px); color: var(--muted); margin-top:8px; text-align:center; }
 
     .cta-area{ display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; }
-    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(18px,4.2vmin,26px); padding:18px 26px; border-radius:999px; 
-              background: var(--btnbg); color: var(--btn);
-              box-shadow: 0 10px 28px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.35);
-              transform: translateZ(0); transition: transform .08s ease, filter .15s ease; }
-    .cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(24px,5.5vmin,36px); padding:24px 32px; border-radius:16px; 
+              background: rgba(255,255,255,0.15); color: var(--fg); border: 2px solid rgba(255,255,255,0.3);
+              box-shadow: 0 8px 20px rgba(0,0,0,.15);
+              transform: translateZ(0); transition: transform .08s ease, filter .15s ease; text-align: center; }
+    .cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.1); }
     .cta-btn:active{ transform: translateY(0); }
 
     .cta-small{ color:var(--muted); font-size: clamp(13px,3vmin,16px); }
-    .qr{ display:grid; place-items:center; width:min(60vw, 420px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); }
+    .qr{ display:grid; place-items:center; width:min(50vw, 350px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); margin: 0 auto; }
     .qr img{ width:100%; height:100%; object-fit:contain; border-radius:12px; }
 
     .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
@@ -115,8 +120,8 @@ Ping me if you want me to swap in an embedded generator.
     <div class="grid">
       <section class="card" aria-live="polite">
         <header>
-          <img id="logo" alt="Ukulele Tuesday logo" style="display:none" />
           <div class="brand">
+            <img id="logo" alt="Ukulele Tuesday logo" style="display:none; margin-bottom: 8px;" />
             <div class="sub" id="subtitle">We’re on a short break</div>
             <h1 id="title">Ukulele Tuesday will resume in</h1>
           </div>
@@ -133,7 +138,8 @@ Ping me if you want me to swap in an embedded generator.
           <div class="chip" id="plus1">+1 min</div>
           <div class="chip" id="minus1">−1 min</div>
           <div class="chip" id="extend30">+30 sec</div>
-          $1  <div class="chip" id="wakeLockBtn">Awake: OFF</div>
+          <div class="chip" id="resetBtn">Reset</div>
+          <div class="chip" id="wakeLockBtn">Awake: OFF</div>
         </div>
       </section>
 
@@ -170,15 +176,15 @@ Ping me if you want me to swap in an embedded generator.
     const qs = new URLSearchParams(location.search);
     const defaults = {
       minutes: 15,
-      title: 'Ukulele Tuesday will resume in',
-      subtitle: 'We\u2019re on a short break',
+      title: 'will resume in',
+      subtitle: '',
       headline: 'Tip: every \u20ac5 prints a songbook',
-      ctaText: 'Donate now',
+      ctaText: 'Support Ukulele Tuesday',
       ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
-      note: 'Scan the code or tap the button',
+      note: 'Scan the QR code with your phone to donate',
       theme: 'dark',
       qr: '1',
-      logo: ''
+      logo: 'ut-logo.png'
     };
 
     const cfg = {
@@ -198,7 +204,13 @@ Ping me if you want me to swap in an embedded generator.
 
     // Fill static text
     document.getElementById('title').textContent = cfg.title;
-    document.getElementById('subtitle').textContent = cfg.subtitle;
+    const subtitleEl = document.getElementById('subtitle');
+    if (cfg.subtitle) {
+      subtitleEl.textContent = cfg.subtitle;
+      subtitleEl.style.display = 'block';
+    } else {
+      subtitleEl.style.display = 'none';
+    }
     document.getElementById('headline').textContent = cfg.headline;
     document.getElementById('cta').textContent = cfg.ctaText;
     document.getElementById('cta').href = cfg.ctaUrl;
