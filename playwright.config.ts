@@ -28,8 +28,11 @@ export default defineConfig({
   projects: [
     {
       name: 'iPad Pro 11',
-      use: { ...devices['iPad Pro 11'] },
-    },
+      use: { 
+        ...devices['iPad Pro 11'],
+        hasTouch: true,
+      },
+    }
   ],
 
   /* Run your local dev server before starting the tests */

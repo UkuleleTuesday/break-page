@@ -48,7 +48,7 @@ Ping me if you want me to swap in an embedded generator.
 
         <div class="progress"><div class="bar" id="bar"></div></div>
 
-        <div class="controls hidden" id="controls">
+        <div class="controls hidden" id="controls" style="margin-bottom: 1rem;">
           <div class="chip" id="pauseBtn">Pause</div>
           <div class="chip" id="plus1">+1 min</div>
           <div class="chip" id="minus1">−1 min</div>
@@ -249,12 +249,16 @@ Ping me if you want me to swap in an embedded generator.
     document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible' && wakeOn && !wakeLock){ setWake(true); } });
 
     // Touch gesture (tap = pause/resume only)
-    function isInteractive(target){ return target.closest('.controls, a, .qr, .cta-area'); }
+    function isInteractive(target){ 
+      return target.closest('.controls, .chip, a, .qr, .cta-area') || 
+             target.matches('.controls, .chip, a, .qr, .cta-area');
+    }
 
     document.addEventListener('touchend', (e)=>{
       if (isInteractive(e.target)) return;
       setPaused(!paused);
-    }, {passive:true});
+      e.preventDefault(); // Prevent the subsequent click event
+    }, {passive:false}); // Must be non-passive to call preventDefault
 
     // Mouse click support for non-touch devices
     document.addEventListener('click', (e) => {
@@ -269,6 +273,9 @@ Ping me if you want me to swap in an embedded generator.
     });
 
 
+    // Initialize the pause state and controls visibility
+    setPaused(paused);
+    
     render();
     requestAnimationFrame(tick);
   </script>
