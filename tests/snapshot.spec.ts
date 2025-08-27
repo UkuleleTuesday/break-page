@@ -7,7 +7,7 @@ test('visual regression for index.html', async ({ page }) => {
   await expect(page).toHaveScreenshot('index.html.png', {
     animations: 'disabled',
     fullPage: true,
-    maxDiffPixels: 200,
+    maxDiffPixels: 10,
     timeout: 10_000
   });
 });
