@@ -28,11 +28,18 @@ export default defineConfig({
   projects: [
     {
       name: 'iPad Pro 11',
-      use: { ...devices['iPad Pro 11'] },
+      use: { 
+        ...devices['iPad Pro 11'],
+        hasTouch: true,
+      },
     },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        hasTouch: true,
+      },
     },
   ],
 

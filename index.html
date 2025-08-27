@@ -254,7 +254,8 @@ Ping me if you want me to swap in an embedded generator.
     document.addEventListener('touchend', (e)=>{
       if (isInteractive(e.target)) return;
       setPaused(!paused);
-    }, {passive:true});
+      e.preventDefault(); // Prevent the subsequent click event
+    }, {passive:false}); // Must be non-passive to call preventDefault
 
     // Mouse click support for non-touch devices
     document.addEventListener('click', (e) => {
@@ -269,6 +270,9 @@ Ping me if you want me to swap in an embedded generator.
     });
 
 
+    // Initialize the pause state and controls visibility
+    setPaused(paused);
+    
     render();
     requestAnimationFrame(tick);
   </script>
