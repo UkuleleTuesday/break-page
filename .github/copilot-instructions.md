@@ -1,6 +1,6 @@
-# Ukulele Tuesday Break Timer - Copilot Instructions
+# Ukulele Tuesday Break Timer - AI Agent Instructions
 
-This document provides instructions for GitHub Copilot on how to assist with development in this repository.
+This document provides instructions for GitHub Copilot and other agents (Aider, etc) on how to assist with development in this repository.
 
 ## Project Overview
 
