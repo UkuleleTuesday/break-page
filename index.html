@@ -72,7 +72,8 @@ Ping me if you want me to swap in an embedded generator.
     .card{ background:var(--card); backdrop-filter: blur(8px); border-radius:24px; padding:clamp(16px,2.5vw,32px); box-shadow:var(--shadow); }
 
     header{ display:flex; align-items:center; gap:16px; margin-bottom:10px; }
-    header img{ height:72px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); display: block; margin: 0 auto; }
+    header img{ height:120px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); display: block; margin: 0 auto; }
+    .brand{ text-align: center; }
     .brand h1{ font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; text-align: center; }
     .brand .sub{ color:var(--muted); font-weight:500; font-size: clamp(14px,1.6vw,18px); }
 
@@ -179,7 +180,7 @@ Ping me if you want me to swap in an embedded generator.
       minutes: 15,
       title: 'will resume in',
       subtitle: '',
-      headline: 'Tip: every \u20ac5 prints a songbook',
+      headline: '',
       ctaText: 'Support Ukulele Tuesday',
       ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
       note: 'Scan the QR code with your phone to donate',
@@ -212,7 +213,13 @@ Ping me if you want me to swap in an embedded generator.
     } else {
       subtitleEl.style.display = 'none';
     }
-    document.getElementById('headline').textContent = cfg.headline;
+    const headlineEl = document.getElementById('headline');
+    if (cfg.headline) {
+      headlineEl.textContent = cfg.headline;
+      headlineEl.style.display = 'block';
+    } else {
+      headlineEl.style.display = 'none';
+    }
     document.getElementById('cta').textContent = cfg.ctaText;
     document.getElementById('cta').href = cfg.ctaUrl;
     document.getElementById('ctaNote').textContent = cfg.note;
