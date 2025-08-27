@@ -23,7 +23,6 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 ### 📱 **Touch-Optimized for iPad**
 - **Tap anywhere**: Pause/Resume timer
 - **On-screen control chips**: Pause, ±1min, +30s, Reset, Wake Lock toggle
-- **First-run touch hint** overlay with gesture instructions
 
 ### 💰 **Donation Integration**
 - **Prominent donate label**

@@ -340,7 +340,7 @@ Ping me if you want me to swap in an embedded generator.
 
     // First-run touch hint
     const hint = document.getElementById('touchHint');
-    if (isTouch && hint && !localStorage.getItem('ut_hint_v1')){
+    if (false){
       hint.style.display='flex';
       const hide=()=>{ hint.style.display='none'; localStorage.setItem('ut_hint_v1','1'); };
       hint.addEventListener('click', hide);
