@@ -249,7 +249,10 @@ Ping me if you want me to swap in an embedded generator.
     document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible' && wakeOn && !wakeLock){ setWake(true); } });
 
     // Touch gesture (tap = pause/resume only)
-    function isInteractive(target){ return target.closest('.controls, a, .qr, .cta-area'); }
+    function isInteractive(target){ 
+      return target.closest('.controls, .chip, a, .qr, .cta-area') || 
+             target.matches('.controls, .chip, a, .qr, .cta-area');
+    }
 
     document.addEventListener('touchend', (e)=>{
       if (isInteractive(e.target)) return;
