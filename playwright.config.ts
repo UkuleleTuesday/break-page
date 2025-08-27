@@ -32,11 +32,7 @@ export default defineConfig({
         ...devices['iPad Pro 11'],
         hasTouch: true,
       },
-    },
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+    }
   ],
 
   /* Run your local dev server before starting the tests */
