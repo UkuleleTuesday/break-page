@@ -74,6 +74,7 @@ Ping me if you want me to swap in an embedded generator.
     .qr img{ width:100%; height:100%; object-fit:contain; border-radius:12px; }
 
     .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; justify-content:center; }
+    .controls.hidden{ display:none; }
     .chip{ background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); padding:8px 12px; border-radius:999px; color:var(--fg);
            font-weight:700; cursor:pointer; user-select:none; }
 
@@ -112,7 +113,7 @@ Ping me if you want me to swap in an embedded generator.
 
         <div class="progress"><div class="bar" id="bar"></div></div>
 
-        <div class="controls">
+        <div class="controls hidden" id="controls">
           <div class="chip" id="pauseBtn">Pause</div>
           <div class="chip" id="plus1">+1 min</div>
           <div class="chip" id="minus1">−1 min</div>
@@ -260,7 +261,34 @@ Ping me if you want me to swap in an embedded generator.
 
     // Controls
     function addMs(ms){ remainingMs = Math.max(0, remainingMs + ms); totalMs = Math.max(0, totalMs + ms); render(); }
-    function setPaused(p){ paused = p; document.getElementById('pauseBtn').textContent = p ? 'Resume' : 'Pause'; }
+    
+    // Controls visibility management
+    const controlsEl = document.getElementById('controls');
+    let controlsVisible = false;
+    
+    function showControls() {
+      if (!controlsVisible) {
+        controlsEl.classList.remove('hidden');
+        controlsVisible = true;
+      }
+    }
+    
+    function hideControls() {
+      if (controlsVisible) {
+        controlsEl.classList.add('hidden');
+        controlsVisible = false;
+      }
+    }
+    
+    function setPaused(p){ 
+      paused = p; 
+      document.getElementById('pauseBtn').textContent = p ? 'Resume' : 'Pause';
+      if (p) {
+        showControls(); // Show controls when paused
+      } else {
+        hideControls(); // Hide controls when resumed
+      }
+    }
 
     document.getElementById('pauseBtn').addEventListener('click', ()=> setPaused(!paused));
     document.getElementById('plus1').addEventListener('click', ()=> addMs(60_000));
@@ -316,6 +344,23 @@ Ping me if you want me to swap in an embedded generator.
         else { setPaused(!paused); lastTap=now; }
       }
     }, {passive:true});
+
+    // Mouse click support for non-touch devices
+    let lastClick = 0;
+    document.addEventListener('click', (e) => {
+      if (isInteractive(e.target)) return;
+      const now = Date.now();
+      if (now - lastClick < 300) {
+        // Double click - add 30 seconds
+        addMs(30_000); 
+        showToast('+30s');
+        lastClick = 0;
+      } else {
+        // Single click - pause/resume
+        setPaused(!paused);
+        lastClick = now;
+      }
+    });
 
     // QR fallback if the remote image fails
     document.getElementById('qr')?.addEventListener('error', ()=>{
