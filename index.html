@@ -141,8 +141,6 @@ Ping me if you want me to swap in an embedded generator.
         <div class="h-title">Touch controls</div>
         <div class="h-rows">
           <div>Tap anywhere: <b>Pause/Resume</b></div>
-          <div>Long‑press: <b>+1m</b></div>
-          <div>Two‑finger tap: <b>−30s</b></div>
         </div>
         <div class="h-dismiss">Tap to dismiss</div>
       </div>
@@ -321,25 +319,12 @@ Ping me if you want me to swap in an embedded generator.
     wakeBtn?.addEventListener('click', ()=>{ wakeOn=!wakeOn; setWake(wakeOn); });
     document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible' && wakeOn && !wakeLock){ setWake(true); } });
 
-    // Touch gestures (tap = pause/resume, long press = +1m, two-finger tap = -30s)
+    // Touch gesture (tap = pause/resume only)
     function isInteractive(target){ return target.closest('.controls, a, .qr, .cta-area'); }
-    let longTimer=null, startTime=0, twoFinger=false;
-
-    document.addEventListener('touchstart', (e)=>{
-      if (isInteractive(e.target)) return;
-      startTime = Date.now();
-      twoFinger = e.touches?.length===2;
-      longTimer = setTimeout(()=>{ addMs(60_000); showToast('+1m'); longTimer=null; }, 600);
-    }, {passive:true});
 
     document.addEventListener('touchend', (e)=>{
       if (isInteractive(e.target)) return;
-      const dur = Date.now()-startTime;
-      if (longTimer){ clearTimeout(longTimer); longTimer=null; }
-      if (twoFinger && dur<220){ addMs(-30_000); showToast('−30s'); twoFinger=false; return; }
-      if (dur<250){
-        setPaused(!paused);
-      }
+      setPaused(!paused);
     }, {passive:true});
 
     // Mouse click support for non-touch devices

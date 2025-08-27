@@ -20,9 +20,6 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 
 ### 📱 **Touch-Optimized for iPad**
 - **Tap anywhere**: Pause/Resume timer
-- **Double-tap**: Add 30 seconds  
-- **Long-press**: Add 1 minute
-- **Two-finger tap**: Subtract 30 seconds
 - **On-screen control chips**: Pause, ±1min, +30s, Reset, Wake Lock toggle
 - **First-run touch hint** overlay with gesture instructions
 
@@ -102,7 +99,7 @@ https://ukuleletuesday.github.io/break-page/?logo=logo.svg&minutes=12
 ## Usage Tips
 
 ### For Organizers
-- **Test beforehand** - Try the touch gestures and wake lock on your actual device
+- **Test beforehand** - Try the touch gesture and wake lock on your actual device
 - **Bookmark configured URL** - Set up your preferred settings and save the URL
 - **Use airplane mode** - Works completely offline (except QR generation uses online service)
 - **Keep charger handy** - Wake lock prevents sleep but may drain battery faster
@@ -115,7 +112,7 @@ https://ukuleletuesday.github.io/break-page/?logo=logo.svg&minutes=12
 ### For Mobile/iPad
 - **Add to Home Screen** for fullscreen PWA experience
 - **Enable Wake Lock** using the on-screen toggle to prevent screen sleep
-- **Touch gestures work anywhere** except on interactive elements (buttons, QR code)
+- **Touch gesture works anywhere** except on interactive elements (buttons, QR code)
 
 ## Technical Details
 
