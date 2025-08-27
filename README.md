@@ -2,6 +2,8 @@
 
 A single-file, portrait-first HTML break screen for Ukulele Tuesday that displays a big "will resume in" headline, a giant countdown timer, a progress bar, and a prominent donation call-to-action with QR code for quick mobile scans.
 
+**This web app is meant purely for organisers to display during the break and is not meant to be accessed directly by users/donors.**
+
 ## 🚀 Live Demo
 
 **Try it now**: https://ukuleletuesday.github.io/break-page/
@@ -25,7 +27,7 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 - **First-run touch hint** overlay with gesture instructions
 
 ### 💰 **Donation Integration**
-- **Prominent donate button** linking to Buy Me a Coffee with UTM tracking
+- **Prominent donate label**
 - **QR code generation** for easy mobile scanning (with fallback to text URL)
 - **Configurable messaging** for donation appeals and instructions
 
@@ -33,7 +35,7 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 - **High-contrast design** with #0f8b81 teal background for excellent visibility
 - **Portrait-first responsive layout** optimized for tablets and projectors
 - **Dark/light theme support** for different lighting conditions
-- **Optional logo display** for branding
+- **Logo display** for branding
 
 ### 📵 **PWA Features**
 - **Add to Home Screen** support with fullscreen mode
