@@ -9,7 +9,7 @@ URL params (optional):
   ctaText   – button text (default: "Donate now")
   ctaUrl    – donation link (default: https://buymeacoffee.com/UkuleleTuesday)
   note      – line under the button (e.g., "Every €5 prints a songbook")
-  theme     – "dark" (default) | "light"
+
   qr        – "1" to show QR (default: 1)
   logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
 
@@ -35,22 +35,8 @@ Ping me if you want me to swap in an embedded generator.
       --muted: rgba(255,255,255,.85);
       --accent:#ffffff;       /* accents default to white for contrast */
       --accent2:#e8fff9;      /* soft highlight */
-      --btn:#0f8b81;          /* button text (on white) */
-      --btnbg:#ffffff;        /* button bg */
       --card: rgba(0,0,0,.12);/* subtle glass card on teal */
       --shadow: 0 16px 46px rgba(0,0,0,.28);
-    }
-    .light{
-      --bg:#f6fbff;
-      --bg2:#e6f2fb;
-      --fg:#0b1221;
-      --muted:#4b587a;
-      --accent:#137a5c;
-      --accent2:#0b78b5;
-      --btn:#ffffff;
-      --btnbg:#0b78b5;
-      --card:#ffffffd0;
-      --shadow: 0 16px 40px rgba(11,18,33,.15);
     }
     html,body{
       margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
@@ -80,12 +66,9 @@ Ping me if you want me to swap in an embedded generator.
     .resume{ font-size: clamp(16px,3.8vmin,24px); color: var(--muted); margin-top:8px; text-align:center; }
 
     .cta-area{ display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; }
-    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(24px,5.5vmin,36px); padding:24px 32px; border-radius:16px; 
+    .cta-display{ font-weight:900; font-size: clamp(24px,5.5vmin,36px); padding:24px 32px; border-radius:16px; 
               background: rgba(255,255,255,0.15); color: var(--fg); border: 2px solid rgba(255,255,255,0.3);
-              box-shadow: 0 8px 20px rgba(0,0,0,.15);
-              transform: translateZ(0); transition: transform .08s ease, filter .15s ease; text-align: center; }
-    .cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.1); }
-    .cta-btn:active{ transform: translateY(0); }
+              box-shadow: 0 8px 20px rgba(0,0,0,.15); text-align: center; }
 
     .cta-small{ color:var(--muted); font-size: clamp(13px,3vmin,16px); }
     .qr{ display:grid; place-items:center; width:min(50vw, 350px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); margin: 0 auto; }
@@ -144,8 +127,8 @@ Ping me if you want me to swap in an embedded generator.
         <div id="qrWrap" class="qr" style="display:none">
           <img id="qr" alt="Scan to donate" />
         </div>
-        <a id="cta" class="cta-btn" href="#" target="_blank" rel="noopener">Donate now</a>
-        <div class="cta-small" id="ctaNote">Scan the code or tap the button</div>
+        <div id="cta" class="cta-display">Donate now</div>
+        <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
       </aside>
     </div>
 
@@ -177,7 +160,6 @@ Ping me if you want me to swap in an embedded generator.
       ctaText: 'Support Ukulele Tuesday',
       ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
       note: 'Scan the QR code with your phone to donate',
-      theme: 'dark',
       qr: '1',
       logo: 'ut-logo-wordmark-white.png'
     };
@@ -190,12 +172,11 @@ Ping me if you want me to swap in an embedded generator.
       ctaText: qs.get('ctaText') || defaults.ctaText,
       ctaUrl: qs.get('ctaUrl') || defaults.ctaUrl,
       note: qs.get('note') || defaults.note,
-      theme: (qs.get('theme') || defaults.theme).toLowerCase(),
       qr: (qs.get('qr') || defaults.qr),
       logo: qs.get('logo') || defaults.logo
     };
 
-    if (cfg.theme === 'light') document.body.classList.add('light');
+
 
     // Fill static text
     document.getElementById('title').textContent = cfg.title;
@@ -214,7 +195,6 @@ Ping me if you want me to swap in an embedded generator.
       headlineEl.style.display = 'none';
     }
     document.getElementById('cta').textContent = cfg.ctaText;
-    document.getElementById('cta').href = cfg.ctaUrl;
     document.getElementById('ctaNote').textContent = cfg.note;
 
     // Logo (optional)
