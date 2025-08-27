@@ -3,7 +3,7 @@ Ukulele Tuesday – Break Timer + Donate (projector-ready)
 Single-file HTML. Open in a browser (F11 for fullscreen).
 
 URL params (optional):
-  minutes   – total minutes for the countdown (default: 15)
+  minutes   – total minutes for the countdown (default: 10)
   title     – headline (default: "Ukulele Tuesday will resume in")
   subtitle  – small line above timer (default: "We’re on a short break")
   ctaText   – button text (default: "Donate now")
@@ -105,7 +105,7 @@ Ping me if you want me to swap in an embedded generator.
         </header>
 
         <div class="headline" id="headline">Tip: every €5 prints a songbook</div>
-        <div class="timer" id="timer" role="timer" aria-live="polite">15:00</div>
+        <div class="timer" id="timer" role="timer" aria-live="polite">10:00</div>
         <div class="resume" id="resumeText"></div>
 
         <div class="progress"><div class="bar" id="bar"></div></div>
@@ -147,7 +147,7 @@ Ping me if you want me to swap in an embedded generator.
   <script>
     const qs = new URLSearchParams(location.search);
     const defaults = {
-      minutes: 15,
+      minutes: 10,
       title: 'will resume in',
       subtitle: '',
       headline: '',
