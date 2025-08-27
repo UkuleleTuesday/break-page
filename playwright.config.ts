@@ -30,6 +30,10 @@ export default defineConfig({
       name: 'iPad Pro 11',
       use: { ...devices['iPad Pro 11'] },
     },
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
