@@ -91,6 +91,7 @@ header img {
 }
 
 .timer {
+  font-family: 'Bebas Neue', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
   font-variant-numeric: tabular-nums;
   letter-spacing: .02em;
   font-weight: 900;
