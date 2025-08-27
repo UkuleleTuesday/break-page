@@ -1,0 +1,234 @@
+:root {
+  --bg: #0f8b81;
+  /* PRIMARY background as requested */
+  --fg: #ffffff;
+  /* foreground on teal */
+  --muted: rgba(255, 255, 255, .85);
+  --accent: #ffffff;
+  /* accents default to white for contrast */
+  --accent2: #e8fff9;
+  /* soft highlight */
+  --card: rgba(0, 0, 0, .12);
+  /* subtle glass card on teal */
+  --shadow: 0 16px 46px rgba(0, 0, 0, .28);
+}
+
+html,
+body {
+  margin: 0;
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.wrap {
+  width: min(980px, 94vw);
+  padding: clamp(16px, 3.5vw, 40px) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  margin-inline: auto;
+}
+
+.card {
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: clamp(16px, 2.5vw, 32px);
+  box-shadow: var(--shadow);
+}
+
+/* iPad Portrait optimization */
+@media (max-width: 900px) and (orientation: portrait),
+(max-height: 1200px) and (orientation: portrait) {
+  .wrap {
+    width: min(750px, 92vw);
+    padding: clamp(12px, 2.5vw, 24px);
+  }
+}
+
+header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+header img {
+  height: 120px;
+  width: auto;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .25));
+  display: block;
+  margin: 0 auto 8px auto;
+}
+
+.brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 6.5vmin, 56px);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+.brand .sub {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: clamp(14px, 1.6vw, 18px);
+}
+
+.headline {
+  font-size: clamp(18px, 3.6vmin, 28px);
+  color: var(--muted);
+  margin: 12px 0 6px;
+  text-align: center;
+}
+
+.timer {
+  font-family: 'Bebas Neue', sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  font-weight: 900;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  font-size: clamp(80px, 18vmin, 240px);
+  line-height: .95;
+  text-align: center;
+}
+
+.resume {
+  font-size: clamp(16px, 3.8vmin, 24px);
+  color: var(--muted);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.cta-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  padding-top: clamp(16px, 3.2vw, 28px);
+  margin-top: clamp(16px, 3.2vw, 28px);
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.cta-display {
+  font-weight: 900;
+  font-size: clamp(26px, 6vmin, 40px);
+  color: var(--fg);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.cta-small {
+  color: var(--muted);
+  font-size: clamp(13px, 3vmin, 16px);
+}
+
+.qr {
+  display: grid;
+  place-items: center;
+  width: min(50vw, 350px);
+  aspect-ratio: 1/1;
+  background: #fff;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin: 0 auto;
+}
+
+.qr img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  justify-content: center;
+}
+
+.controls.hidden {
+  display: none;
+}
+
+.chip {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .12);
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.progress {
+  height: 10px;
+  background: rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 18px auto 0;
+  width: min(900px, 90%);
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .65));
+  transition: width .2s linear;
+}
+
+.back {
+  font-size: clamp(24px, 6vw, 64px);
+  color: var(--accent2);
+  font-weight: 900;
+  letter-spacing: .4px;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+
+.blink {
+  animation: blink 1.8s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: .35;
+  }
+}
+
+footer {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 6vh;
+  transform: translateX(-50%);
+  background: var(--card);
+  padding: 10px 14px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font-weight: 800;
+  z-index: 60;
+  display: none
+}

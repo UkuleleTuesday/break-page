@@ -6,7 +6,7 @@
   "main": "index.html",
   "scripts": {
     "test": "playwright test",
-    "postinstall": "playwright install --with-deps"
+    "postinstall": "playwright install webkit --with-deps"
   },
   "keywords": [
     "ukulele",
