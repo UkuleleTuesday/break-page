@@ -10,6 +10,8 @@ A single-file, portrait-first HTML break screen for Ukulele Tuesday that display
 
 The break timer is live on GitHub Pages for immediate access. Bookmark this URL or add it to your home screen for quick access during events!
 
+![Ukulele Tuesday Break Timer Screenshot](tests/snapshot.spec.ts-snapshots/index-html-iPad-Pro-11-linux.png)
+
 ## Features
 
 ### 🎯 **Core Functionality**
