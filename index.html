@@ -13,12 +13,6 @@ URL params (optional):
   qr        – "1" to show QR (default: 1)
   logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
 
-Keyboard controls:
-  Space   – pause/resume
-  ↑ / ↓   – +1 min / −1 min
-  R       – reset
-  E       – +30 sec (extend)
-
 If you want this totally offline, the QR <img> uses a public QR service.
 Ping me if you want me to swap in an embedded generator.
 -->
@@ -109,8 +103,6 @@ Ping me if you want me to swap in an embedded generator.
     @keyframes blink { 50% { opacity: .35; } }
 
     footer{ margin-top: 14px; color:var(--muted); font-size: 14px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
-    footer .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: rgba(255,255,255,.08);
-                 padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.15); }
     /* iPad touch/overlay styles */
     .hint{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:50}
     .hint-inner{background:var(--card);padding:24px 28px;border-radius:20px;box-shadow:var(--shadow);text-align:center;max-width:90vw}
@@ -158,8 +150,6 @@ Ping me if you want me to swap in an embedded generator.
     </div>
 
     <footer>
-      <div>Keyboard: <span class="kbd">Space</span> pause • <span class="kbd">↑/↓</span> ±1m • <span class="kbd">E</span> +30s • <span class="kbd">R</span> reset</div>
-      <div id="ctaUrlEcho" class="cta-small"></div>
     </footer>
   </div>
 
@@ -226,7 +216,6 @@ Ping me if you want me to swap in an embedded generator.
     document.getElementById('cta').textContent = cfg.ctaText;
     document.getElementById('cta').href = cfg.ctaUrl;
     document.getElementById('ctaNote').textContent = cfg.note;
-    document.getElementById('ctaUrlEcho').textContent = cfg.ctaUrl;
 
     // Logo (optional)
     if (cfg.logo){
@@ -300,13 +289,7 @@ Ping me if you want me to swap in an embedded generator.
     document.getElementById('extend30').addEventListener('click', ()=> addMs(30_000));
     document.getElementById('resetBtn').addEventListener('click', ()=>{ remainingMs = totalMs = startTotalMs; timerEl.classList.remove('back','blink'); render(); });
 
-    window.addEventListener('keydown', (e)=>{
-      if (e.code === 'Space') { e.preventDefault(); setPaused(!paused); }
-      else if (e.key === 'ArrowUp') addMs(60_000);
-      else if (e.key === 'ArrowDown') addMs(-60_000);
-      else if (e.key.toLowerCase() === 'e') addMs(30_000);
-      else if (e.key.toLowerCase() === 'r') { remainingMs = totalMs = startTotalMs; timerEl.classList.remove('back','blink'); render(); }
-    });
+
 
     // --- iPad/mobile enhancements ---
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints>0;
