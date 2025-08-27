@@ -346,20 +346,10 @@ Ping me if you want me to swap in an embedded generator.
     }, {passive:true});
 
     // Mouse click support for non-touch devices
-    let lastClick = 0;
     document.addEventListener('click', (e) => {
       if (isInteractive(e.target)) return;
-      const now = Date.now();
-      if (now - lastClick < 300) {
-        // Double click - add 30 seconds
-        addMs(30_000); 
-        showToast('+30s');
-        lastClick = 0;
-      } else {
-        // Single click - pause/resume
-        setPaused(!paused);
-        lastClick = now;
-      }
+      // Single click - pause/resume
+      setPaused(!paused);
     });
 
     // QR fallback if the remote image fails
