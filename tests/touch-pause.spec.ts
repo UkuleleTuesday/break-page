@@ -84,31 +84,8 @@ test.describe('Touch Pause Functionality', () => {
     await pauseBtn.click();
     await expect(pauseBtn).toHaveText('Pause');
     
-    // Use touchend event specifically (what iPad uses)
-    await page.evaluate(() => {
-      const timer = document.getElementById('timer')!;
-      const touchEvent = new TouchEvent('touchend', {
-        bubbles: true,
-        cancelable: true,
-        touches: [],
-        targetTouches: [],
-        changedTouches: [{
-          identifier: 0,
-          target: timer,
-          clientX: 100,
-          clientY: 100,
-          pageX: 100,
-          pageY: 100,
-          screenX: 100,
-          screenY: 100,
-          radiusX: 1,
-          radiusY: 1,
-          rotationAngle: 0,
-          force: 1
-        } as any]
-      });
-      timer.dispatchEvent(touchEvent);
-    });
+    // Use Playwright's tap to simulate a touch on the timer
+    await page.locator('#timer').tap();
     
     // Should be paused after touch event
     await expect(pauseBtn).toHaveText('Resume');
