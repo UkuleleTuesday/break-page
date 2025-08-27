@@ -5,7 +5,8 @@
   "description": "Ukulele Tuesday – Break Timer + Donate (projector-ready)",
   "main": "index.html",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "postinstall": "playwright install --with-deps"
   },
   "keywords": [
     "ukulele",
