@@ -133,6 +133,35 @@ https://ukuleletuesday.github.io/break-page/?logo=logo.svg&minutes=12
 - **CSS Custom Properties** for theming
 - **RequestAnimationFrame** for smooth timer updates
 
+## Development
+
+### Visual Regression Testing
+
+This project uses [Playwright](https://playwright.dev/) for visual regression testing. It takes a screenshot of the page and compares it against a baseline snapshot to prevent unintended visual changes. The test dependencies and scripts are managed with `pnpm`.
+
+**Setup**
+
+First, install the dependencies:
+```bash
+pnpm install
+```
+
+**Running Tests**
+
+To execute the visual regression tests:
+```bash
+pnpm test
+```
+
+**Updating Snapshots**
+
+If you make intentional changes to the UI, you will need to update the baseline snapshot. After verifying that the changes are correct, run:
+```bash
+pnpm playwright test --update-snapshots
+```
+
+Commit the updated snapshot file in the `tests/snapshot.spec.ts-snapshots/` directory along with your code changes.
+
 ## Deployment
 
 ### Static Hosting
