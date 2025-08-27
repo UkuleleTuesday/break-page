@@ -31,6 +31,9 @@ Ping me if you want me to swap in an embedded generator.
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#0b1221" />
 <title>Ukulele Tuesday – Break Timer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg: #0f8b81;          /* PRIMARY background as requested */
@@ -74,7 +77,7 @@ Ping me if you want me to swap in an embedded generator.
     header{ text-align: center; margin-bottom:10px; }
     header img{ height:120px; width:auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,.25)); display: block; margin: 0 auto 8px auto; }
     .brand{ text-align: center; display: flex; flex-direction: column; align-items: center; }
-    .brand h1{ font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; text-align: center; }
+    .brand h1{ font-family: 'Bebas Neue', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans"; font-size: clamp(28px,6.5vmin,56px); line-height:1.1; margin:0; letter-spacing:.2px; text-align: center; }
     .brand .sub{ color:var(--muted); font-weight:500; font-size: clamp(14px,1.6vw,18px); }
 
     .headline{ font-size: clamp(18px,3.6vmin,28px); color:var(--muted); margin: 12px 0 6px; text-align:center; }
@@ -94,7 +97,7 @@ Ping me if you want me to swap in an embedded generator.
     .qr{ display:grid; place-items:center; width:min(50vw, 350px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); margin: 0 auto; }
     .qr img{ width:100%; height:100%; object-fit:contain; border-radius:12px; }
 
-    .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; justify-content:center; }
     .chip{ background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); padding:8px 12px; border-radius:999px; color:var(--fg);
            font-weight:700; cursor:pointer; user-select:none; }
 
