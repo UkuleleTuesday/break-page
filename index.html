@@ -158,7 +158,8 @@ Ping me if you want me to swap in an embedded generator.
       ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
       note: 'Scan with your phone to support us ⬇️',
       qr: '1',
-      logo: 'ut-logo-wordmark-white.png'
+      logo: 'ut-logo-wordmark-white.png',
+      autostart: 'true'
     };
 
     const cfg = {
@@ -170,7 +171,8 @@ Ping me if you want me to swap in an embedded generator.
       ctaUrl: qs.get('ctaUrl') || defaults.ctaUrl,
       note: qs.get('note') || defaults.note,
       qr: (qs.get('qr') || defaults.qr),
-      logo: qs.get('logo') || defaults.logo
+      logo: qs.get('logo') || defaults.logo,
+      autostart: (qs.get('autostart') || defaults.autostart)
     };
 
 
@@ -213,7 +215,7 @@ Ping me if you want me to swap in an embedded generator.
     let totalMs = Math.max(0, Math.round(cfg.minutes * 60 * 1000));
     const startTotalMs = totalMs;
     let remainingMs = totalMs;
-    let paused = false;
+    let paused = cfg.autostart === 'false';
     let lastTs = performance.now();
 
     const timerEl = document.getElementById('timer');
@@ -330,7 +332,6 @@ Ping me if you want me to swap in an embedded generator.
     // Mouse click support for non-touch devices
     document.addEventListener('click', (e) => {
       if (isInteractive(e.target)) return;
-      // Single click - pause/resume
       setPaused(!paused);
     });
 
