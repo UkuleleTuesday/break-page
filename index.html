@@ -80,21 +80,14 @@ Ping me if you want me to swap in an embedded generator.
     .resume{ font-size: clamp(16px,3.8vmin,24px); color: var(--muted); margin-top:8px; text-align:center; }
 
     .cta-area{ display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; }
-    .cta-header{ font-weight:900; font-size: clamp(20px,4.5vmin,32px); color: var(--accent); margin-bottom:8px; text-shadow: 0 2px 8px rgba(0,0,0,.3); }
-    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(26px,6vmin,40px); padding:28px 40px; border-radius:20px; 
-              background: linear-gradient(135deg, #ff6b35, #f7931e); color: #ffffff; border: 3px solid rgba(255,255,255,0.4);
-              box-shadow: 0 12px 32px rgba(0,0,0,.25), 0 0 0 0 rgba(255,107,53,.4);
-              transform: translateZ(0); transition: all .15s ease; text-align: center; 
-              animation: pulse-glow 3s ease-in-out infinite; }
-    .cta-btn:hover{ transform: translateY(-2px) scale(1.02); filter: brightness(1.1); box-shadow: 0 16px 40px rgba(0,0,0,.3), 0 0 20px rgba(255,107,53,.6); }
-    .cta-btn:active{ transform: translateY(0) scale(0.98); }
-    
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 12px 32px rgba(0,0,0,.25), 0 0 0 0 rgba(255,107,53,.4); }
-      50% { box-shadow: 0 12px 32px rgba(0,0,0,.25), 0 0 15px 5px rgba(255,107,53,.6); }
-    }
+    .cta-btn{ display:inline-block; text-decoration:none; font-weight:900; font-size: clamp(24px,5.5vmin,36px); padding:24px 32px; border-radius:16px; 
+              background: rgba(255,255,255,0.15); color: var(--fg); border: 2px solid rgba(255,255,255,0.3);
+              box-shadow: 0 8px 20px rgba(0,0,0,.15);
+              transform: translateZ(0); transition: transform .08s ease, filter .15s ease; text-align: center; }
+    .cta-btn:hover{ transform: translateY(-1px); filter: brightness(1.1); }
+    .cta-btn:active{ transform: translateY(0); }
 
-    .cta-small{ color:var(--accent); font-size: clamp(15px,3.5vmin,18px); font-weight: 600; }
+    .cta-small{ color:var(--muted); font-size: clamp(13px,3vmin,16px); }
     .qr{ display:grid; place-items:center; width:min(50vw, 350px); aspect-ratio:1/1; background:#fff; border-radius:20px; padding:18px; box-shadow: var(--shadow); margin: 0 auto; }
     .qr img{ width:100%; height:100%; object-fit:contain; border-radius:12px; }
 
@@ -148,12 +141,11 @@ Ping me if you want me to swap in an embedded generator.
       </section>
 
       <aside class="card cta-area">
-        <div class="cta-header">Help Keep the Music Alive! 🎵</div>
         <div id="qrWrap" class="qr" style="display:none">
           <img id="qr" alt="Scan to donate" />
         </div>
-        <a id="cta" class="cta-btn" href="#" target="_blank" rel="noopener">Buy Us a Coffee ☕</a>
-        <div class="cta-small" id="ctaNote">Every €5 prints a songbook • Scan with your phone</div>
+        <a id="cta" class="cta-btn" href="#" target="_blank" rel="noopener">Donate now</a>
+        <div class="cta-small" id="ctaNote">Scan the code or tap the button</div>
       </aside>
     </div>
 
@@ -182,9 +174,9 @@ Ping me if you want me to swap in an embedded generator.
       title: 'will resume in',
       subtitle: '',
       headline: '',
-      ctaText: 'Buy Us a Coffee ☕',
+      ctaText: 'Support Ukulele Tuesday',
       ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
-      note: 'Every €5 prints a songbook • Scan with your phone',
+      note: 'Scan the QR code with your phone to donate',
       theme: 'dark',
       qr: '1',
       logo: 'ut-logo-wordmark-white.png'
