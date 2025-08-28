@@ -136,35 +136,19 @@ header img {
   display: grid;
   place-items: center;
   width: min(50vw, 350px);
+  aspect-ratio: 1/1;
   background: #fff;
   border-radius: 20px;
   padding: 18px;
   box-shadow: var(--shadow);
   margin: 0 auto;
-  gap: 12px;
 }
 
-.qr canvas {
+.qr img {
   width: 100%;
-  height: auto;
-  max-width: 280px;
+  height: 100%;
+  object-fit: contain;
   border-radius: 12px;
-}
-
-.qr-shorturl {
-  color: #333;
-  font-weight: 700;
-  font-size: clamp(16px, 3.5vmin, 20px);
-  text-align: center;
-  margin-top: 8px;
-}
-
-.qr-fallback {
-  color: #333;
-  font-size: clamp(12px, 2.8vmin, 14px);
-  text-align: center;
-  padding: 20px;
-  word-break: break-all;
 }
 
 .controls {

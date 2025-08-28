@@ -125,22 +125,14 @@ https://ukuleletuesday.github.io/break-page/?logo=logo.svg&minutes=12
 
 ### Dependencies
 - **Zero dependencies** - Single HTML file with inline CSS and JavaScript
-- **QR generation** works completely offline using QRCode.js with local fallback
-- **Offline-capable** - Works without internet connection on iPad and other devices
+- **QR generation** uses external service (api.qrserver.com) - only network dependency
+- **QR fallback** shows donation URL as text if image fails to load
 
 ### Architecture
 - **Single-file architecture** - Everything in index.html for maximum portability
 - **Vanilla JavaScript** - No frameworks or build process required
 - **CSS Custom Properties** for theming
 - **RequestAnimationFrame** for smooth timer updates
-- **Offline QR generation** - Uses QRCode.js (CDN) with embedded fallback for full offline capability
-
-### QR Code Implementation
-- **Primary**: QRCode.js loaded from CDN (jsdelivr.net)
-- **Fallback**: Embedded minimal QR pattern generator for offline scenarios  
-- **URL Encoding**: QR encodes the canonical donation URL (buymeacoffee.com with UTM tracking)
-- **Visual Display**: Always shows "ukuleletuesday.ie/donate" text below QR for easy reference
-- **Testing**: Playwright tests verify QR payload matches expected canonical URL
 
 ## Development
 
