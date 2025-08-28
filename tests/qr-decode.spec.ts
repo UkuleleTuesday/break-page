@@ -77,30 +77,18 @@ test('QR offline functionality', async ({ page }) => {
   // Wait for QR area to be visible
   await page.waitForSelector('#qrWrap', { state: 'visible' });
 
-  // Should show canvas QR (either real QR or fallback pattern) and short URL
-  const qrCanvas = page.locator('#qr');
-  await expect(qrCanvas).toBeVisible();
-  
-  // Check that it's a canvas element
-  const isCanvas = await qrCanvas.evaluate(el => el.tagName.toLowerCase() === 'canvas');
-  expect(isCanvas).toBe(true);
+  // Should show fallback text when CDN is blocked
+  const qrFallback = page.locator('.qr-fallback');
+  await expect(qrFallback).toBeVisible();
+  await expect(qrFallback).toContainText('https://buymeacoffee.com/UkuleleTuesday');
 
   // Short URL should always be visible
   const shortUrlElement = page.locator('.qr-shorturl');
   await expect(shortUrlElement).toBeVisible();
   await expect(shortUrlElement).toHaveText('ukuleletuesday.ie/donate');
   
-  // Verify the canonical URL is being used for QR generation by checking config
-  const canonicalUrl = await page.evaluate(() => {
-    const qs = new URLSearchParams(location.search);
-    const defaults = {
-      ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal'
-    };
-    const cfg = {
-      ctaUrl: (qs.get('ctaUrl') || defaults.ctaUrl)
-    };
-    return cfg.ctaUrl;
-  });
-  
-  expect(canonicalUrl).toBe('https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal');
+  // Verify the canonical URL is being used by checking fallback content
+  await expect(qrFallback).toContainText('utm_source=projector');
+  await expect(qrFallback).toContainText('utm_medium=screen');
+  await expect(qrFallback).toContainText('utm_campaign=break-appeal');
 });

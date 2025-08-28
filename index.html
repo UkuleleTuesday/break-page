@@ -30,46 +30,6 @@ The QR encodes the canonical donation URL and always displays "ukuleletuesday.ie
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/lib/browser.js"></script>
-  <script>
-    // Minimal QR code fallback if CDN fails
-    if (typeof QRCode === 'undefined') {
-      window.QRCode = {
-        toCanvas: function(canvas, text, options, callback) {
-          // Simple fallback - create a visual representation
-          const ctx = canvas.getContext('2d');
-          canvas.width = options.width || 280;
-          canvas.height = options.width || 280;
-          
-          // White background
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          // Black border to indicate QR area
-          ctx.fillStyle = '#000000';
-          ctx.fillRect(0, 0, canvas.width, 20);
-          ctx.fillRect(0, canvas.height-20, canvas.width, 20);
-          ctx.fillRect(0, 0, 20, canvas.height);
-          ctx.fillRect(canvas.width-20, 0, 20, canvas.height);
-          
-          // Draw simple pattern
-          ctx.fillStyle = '#000000';
-          for (let i = 30; i < canvas.width-30; i+=30) {
-            for (let j = 30; j < canvas.height-30; j+=30) {
-              if ((i+j) % 60 === 0) {
-                ctx.fillRect(i, j, 20, 20);
-              }
-            }
-          }
-          
-          // Text indicating this is a fallback
-          ctx.font = '12px sans-serif';
-          ctx.fillText('QR Code', canvas.width/2 - 30, canvas.height/2);
-          
-          if (callback) callback(null);
-        }
-      };
-    }
-  </script>
 </head>
 <body>
   <div class="wrap">
