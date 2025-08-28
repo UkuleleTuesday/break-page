@@ -33,11 +33,21 @@ test.describe('QR Code Verification', () => {
     const qrCodeImage = page.locator('#qrWrap img');
     console.log('Checking if #qrWrap img is visible...');
 
-    // Instead of toBeVisible(), check if the element has a positive bounding box.
-    // This can be more reliable for images that are dynamically loaded or sized.
-    await expect(qrCodeImage).toHaveBoundingBox({ width: (w) => w > 0, height: (h) => h > 0, timeout: 7000 });
+    // Use expect.poll to wait for the QR code image to have a positive size.
+    // This is more reliable than toBeVisible() for elements that might take time to render.
+    await expect.poll(async () => {
+      const boundingBox = await qrCodeImage.boundingBox();
+      if (boundingBox) {
+        console.log(`Polling QR image dimensions: width=${boundingBox.width}, height=${boundingBox.height}`);
+        return boundingBox.width > 0 && boundingBox.height > 0;
+      }
+      return false;
+    }, {
+      message: 'QR code image did not render with a positive size within the timeout.',
+      timeout: 7000,
+    }).toBe(true);
 
-    console.log('#qrWrap img has positive dimensions and is considered visible.');
+    console.log('#qrWrap img has positive dimensions.');
 
     // 3. Get the base64 src and decode it using zxing-wasm
     console.log('Getting "src" attribute from QR code image...');
