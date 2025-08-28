@@ -32,13 +32,25 @@ test.describe('QR Code Verification', () => {
     const qr = new QrCode();
     const result: string = await new Promise((resolve, reject) => {
       qr.callback = (err: Error | null, value: { result: string } | null) => {
+        console.log('qrcode-reader callback triggered');
+        console.log('Error:', err);
+        console.log('Value:', value);
+
         if (err) {
-          // Wrap the error to ensure a proper Error object is rejected.
-          return reject(new Error(`QR code decoding failed: ${err.message}`));
+          console.error('QR code decoding failed. Raw error:', err);
+          // Attempt to get a more detailed error message
+          const errorMessage = err.message || JSON.stringify(err);
+          return reject(new Error(`QR code decoding failed: ${errorMessage}`));
         }
-        // qrcode-reader can return a null value on success
+        
+        if (!value || !value.result) {
+            console.warn('QR code decoded, but result is empty.');
+        }
+
         resolve(value?.result || '');
       };
+      
+      console.log('Attempting to decode image bitmap...');
       qr.decode(image.bitmap);
     });
 
