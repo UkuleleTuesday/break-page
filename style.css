@@ -122,7 +122,7 @@ header img {
 .cta-display {
   font-family: 'Bebas Neue', sans-serif;
   font-weight: 900;
-  font-size: clamp(26px, 6vmin, 40px);
+  font-size: clamp(32px, 7vmin, 50px);
   color: var(--fg);
   text-align: center;
   margin-bottom: 8px;
@@ -130,7 +130,7 @@ header img {
 
 .cta-small {
   color: var(--muted);
-  font-size: clamp(13px, 3vmin, 16px);
+  font-size: clamp(16px, 3.5vmin, 20px);
 }
 
 #qrUrl {
