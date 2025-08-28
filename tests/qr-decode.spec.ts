@@ -16,6 +16,7 @@ test.describe('QR Code Verification', () => {
     await expect(qrTextElement).toHaveText('ukuleletuesday.ie/donate');
 
     // 2. Take a screenshot of the QR code, which is inside the #qrWrap element
+    await expect(page.locator('#qrWrap')).toBeVisible(); // Ensure the wrapper is visible first
     const qrCodeElement = page.locator('#qrWrap canvas');
     await expect(qrCodeElement).toBeVisible();
 
