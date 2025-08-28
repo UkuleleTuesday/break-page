@@ -60,7 +60,7 @@ Ping me if you want me to swap in an embedded generator.
         <div class="cta-area">
           <div id="cta" class="cta-display">Donate now</div>
           <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
-          <div id="qrWrap" class="qr" style="display:none; padding: 1rem; background: white; border-radius: 8px;">
+          <div id="qrWrap" class="qr" style="display:none;">
             <!-- QR Code will be generated here -->
           </div>
           <p id="qrUrl" class="cta-small"></p>
@@ -140,8 +140,6 @@ Ping me if you want me to swap in an embedded generator.
       try {
         new QRCode(qrWrap, {
             text: cfg.qrCodeUrl,
-            width: 200,
-            height: 200,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H

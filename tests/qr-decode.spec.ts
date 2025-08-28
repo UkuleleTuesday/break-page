@@ -14,17 +14,31 @@ test.describe('QR Code Verification', () => {
     await expect(qrTextElement).toHaveText('ukuleletuesday.ie/donate');
 
     // 2. Locate the generated QR code image
-    await expect(page.locator('#qrWrap')).toBeVisible();
-    const qrCodeImage = page.locator('#qrWrap img');
-    await expect(qrCodeImage).toBeVisible();
+    const qrWrap = page.locator('#qrWrap');
+    await expect(qrWrap).toBeVisible();
+    // The library can render an `<img>` or a `<canvas>` and may leave both in the DOM.
+    // We target the one that is not hidden by `display: none`.
+    const qrCodeElement = page.locator('#qrWrap > *:not([style*="display: none"])');
 
-    // 3. Get the base64 src and decode it using zxing-wasm
-    const imgSrc = await qrCodeImage.getAttribute('src');
-    expect(imgSrc).not.toBeNull();
+    // Use expect.poll to wait for the QR code to have a positive size.
+    await expect.poll(async () => {
+      const boundingBox = await qrCodeElement.boundingBox();
+      if (!boundingBox) {
+        console.log('Polling: QR image bounding box is null.');
+        return false;
+      }
+      console.log(`Polling QR image dimensions: width=${boundingBox.width}, height=${boundingBox.height}`);
+      return boundingBox.width > 0 && boundingBox.height > 0;
+    }, {
+      message: 'QR code image did not render with a positive size within the timeout.',
+      timeout: 7000,
+    }).toBe(true);
 
-    const base64Data = imgSrc!.replace(/^data:image\/png;base64,/, '');
-    const buffer = Buffer.from(base64Data, 'base64');
+    // 3. Take a screenshot of the page and decode the QR code from it
+    console.log('Taking a screenshot of the page...');
+    const buffer = await page.screenshot({ fullPage: true });
 
+    console.log('Decoding QR code from screenshot...');
     const results = await readBarcodes(buffer, {
       tryHarder: true,
       formats: ['QRCode'],
