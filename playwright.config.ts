@@ -34,15 +34,16 @@ export default defineConfig({
       },
     },
     {
-      name: 'Desktop Safari',
+      name: 'Desktop Chrome',
       use: { 
-        ...devices['Desktop Safari'],
+        ...devices['Desktop Chrome'],
+        hasTouch: false,
       },
     },
     {
-      name: 'iPhone 15',
+      name: 'Galaxy Tab S9',
       use: { 
-        ...devices['iPhone 15'],
+        ...devices['Galaxy Tab S9'],
         hasTouch: true,
       },
     }
