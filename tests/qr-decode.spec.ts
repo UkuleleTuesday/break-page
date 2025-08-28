@@ -31,10 +31,12 @@ test.describe('QR Code Verification', () => {
 
     const qr = new QrCode();
     const result: string = await new Promise((resolve, reject) => {
-      qr.callback = (err, value) => {
+      qr.callback = (err: Error | null, value: { result: string } | null) => {
         if (err) {
-          return reject(err);
+          // Wrap the error to ensure a proper Error object is rejected.
+          return reject(new Error(`QR code decoding failed: ${err.message}`));
         }
+        // qrcode-reader can return a null value on success
         resolve(value?.result || '');
       };
       qr.decode(image.bitmap);
