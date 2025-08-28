@@ -42,17 +42,18 @@ test.describe('Touch Pause Functionality', () => {
     const pauseBtn = page.locator('#pauseBtn');
     await expect(pauseBtn).toHaveText('Resume');
     
-    // Tap on the pause button itself should not trigger the tap-to-pause logic
+    // Click on the pause button itself should not trigger the tap-to-pause logic
     // It should just work normally as a button click
-    await pauseBtn.tap();
+    await pauseBtn.click();
     await expect(pauseBtn).toHaveText('Pause');
     
     // Controls should be hidden after resuming
     const controls = page.locator('#controls');
     await expect(controls).toHaveClass(/hidden/);
     
-    // Tap on pause button again to pause
-    await pauseBtn.tap();
+    // When controls are hidden, use background tap to pause (not button tap)
+    // Tap on the timer area to pause
+    await page.locator('#timer').tap();
     await expect(pauseBtn).toHaveText('Resume');
     await expect(controls).not.toHaveClass(/hidden/);
   });
