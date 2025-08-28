@@ -36,7 +36,7 @@ test.describe('QR Code Verification', () => {
 
     // 3. Take a screenshot of the page and decode the QR code from it
     console.log('Taking a screenshot of the page...');
-    const buffer = await page.screenshot();
+    const buffer = await page.screenshot({ fullPage: true });
 
     console.log('Decoding QR code from screenshot...');
     const results = await readBarcodes(buffer, {
