@@ -27,7 +27,10 @@ body {
 
 .wrap {
   width: min(980px, 94vw);
-  padding: clamp(16px, 3.5vw, 40px) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding-top: clamp(32px, 6vw, 64px);
+  padding-bottom: clamp(32px, 6vw, 64px);
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   margin-inline: auto;
 }
 
@@ -44,7 +47,10 @@ body {
 (max-height: 1200px) and (orientation: portrait) {
   .wrap {
     width: min(750px, 92vw);
-    padding: clamp(12px, 2.5vw, 24px);
+    padding-top: clamp(24px, 4vw, 48px);
+    padding-bottom: clamp(24px, 4vw, 48px);
+    padding-left: clamp(12px, 2.5vw, 24px);
+    padding-right: clamp(12px, 2.5vw, 24px);
   }
 }
 
