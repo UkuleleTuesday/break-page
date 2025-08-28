@@ -109,6 +109,7 @@ header img {
 }
 
 .cta-area {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,8 +121,9 @@ header img {
 }
 
 .cta-display {
+  font-family: 'Bebas Neue', sans-serif;
   font-weight: 900;
-  font-size: clamp(26px, 6vmin, 40px);
+  font-size: clamp(32px, 7vmin, 50px);
   color: var(--fg);
   text-align: center;
   margin-bottom: 8px;
@@ -129,7 +131,7 @@ header img {
 
 .cta-small {
   color: var(--muted);
-  font-size: clamp(13px, 3vmin, 16px);
+  font-size: clamp(16px, 3.5vmin, 20px);
 }
 
 #qrUrl {
@@ -158,6 +160,32 @@ header img {
   min-width: 1px; /* Prevents collapsing to zero width */
   object-fit: contain;
   border-radius: 12px;
+}
+
+.arrow-svg {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(70px) translateY(40px) rotate(70deg) scale(.9);
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+}
+
+.arrow-svg path {
+  stroke: var(--fg);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .3));
+}
+
+/* Responsive adjustments for the arrow on smaller screens */
+@media (max-width: 700px) {
+  .arrow-svg {
+    display: none;
+  }
 }
 
 .controls {
