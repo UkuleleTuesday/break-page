@@ -31,6 +31,7 @@ test.describe('QR Code Verification', () => {
     console.log('Buffer length:', buffer.length);
     
     const image = await Jimp.read(buffer);
+    image.greyscale().contrast(1); // Convert to high-contrast black and white
     console.log('Jimp image bitmap:', {
       width: image.bitmap.width,
       height: image.bitmap.height,
