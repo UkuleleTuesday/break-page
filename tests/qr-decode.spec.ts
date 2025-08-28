@@ -4,7 +4,7 @@ import { readBarcodes } from 'zxing-wasm/reader';
 test.describe('QR Code Verification', () => {
   test('should generate a QR code with the correct URL and display short URL', async ({ page }) => {
     // The default donation URL from index.html's defaults object
-    const expectedUrl = 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal';
+    const expectedUrl = 'ukuleletuesday.ie/donate-qr';
 
     await page.goto('/');
 
