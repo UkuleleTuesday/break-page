@@ -32,6 +32,19 @@ export default defineConfig({
         ...devices['iPad Pro 11'],
         hasTouch: true,
       },
+    },
+    {
+      name: 'Desktop Safari',
+      use: { 
+        ...devices['Desktop Safari'],
+      },
+    },
+    {
+      name: 'iPhone 15',
+      use: { 
+        ...devices['iPhone 15'],
+        hasTouch: true,
+      },
     }
   ],
 
