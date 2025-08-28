@@ -15,21 +15,20 @@ test.describe('QR Code Verification', () => {
     await expect(qrTextElement).toBeVisible();
     await expect(qrTextElement).toHaveText('ukuleletuesday.ie/donate');
 
-    // 2. Take a screenshot of the QR code, which is inside the #qrWrap element
+    // 2. Locate the generated QR code image
     await expect(page.locator('#qrWrap')).toBeVisible(); // Ensure the wrapper is visible first
-    const qrCodeElement = page.locator('#qrWrap canvas');
-    await expect(qrCodeElement).toBeVisible();
+    const qrCodeImage = page.locator('#qrWrap img');
+    await expect(qrCodeImage).toBeVisible();
 
-    const screenshotPath = path.join(__dirname, 'temp-qr-code.png');
-    // We screenshot the wrapper to include the white padding, which is necessary for some decoders
-    await page.locator('#qrWrap').screenshot({ path: screenshotPath });
+    // 3. Decode the QR code image from its src attribute
+    const imgSrc = await qrCodeImage.getAttribute('src');
+    expect(imgSrc).not.toBeNull();
 
-    // 3. Decode the QR code image
     const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = (err) => reject(err);
-      img.src = `data:image/png;base64,${fs.readFileSync(screenshotPath, 'base64')}`;
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = (err) => reject(err);
+        img.src = imgSrc!;
     });
 
     const hints = new Map();
@@ -37,11 +36,8 @@ test.describe('QR Code Verification', () => {
     hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
     const reader = new BrowserQRCodeReader(hints);
     const result = await reader.decodeFromImageElement(image);
-
-    // 4. Clean up the temporary screenshot file
-    fs.unlinkSync(screenshotPath);
-
-    // 5. Assert the decoded text matches the expected URL
+    
+    // 4. Assert the decoded text matches the expected URL
     expect(result.getText()).toBe(expectedUrl);
   });
 });
