@@ -44,7 +44,7 @@ Ping me if you want me to swap in an embedded generator.
 
         <div class="headline" id="headline">Tip: every €5 prints a songbook</div>
         <div class="timer" id="timer" role="timer" aria-live="polite">10:00</div>
-        <div class="resume" id="resumeText"></div>
+        <div class="resume" id="resumeText" style="pointer-events: none;"></div>
 
         <div class="progress"><div class="bar" id="bar"></div></div>
 
@@ -60,9 +60,10 @@ Ping me if you want me to swap in an embedded generator.
         <div class="cta-area">
           <div id="cta" class="cta-display">Donate now</div>
           <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
-          <div id="qrWrap" class="qr" style="display:none">
-            <img id="qr" alt="Scan to donate" />
+          <div id="qrWrap" class="qr" style="display:none; padding: 1rem; background: white; border-radius: 8px;">
+            <!-- QR Code will be generated here -->
           </div>
+          <p id="qrUrl" class="cta-small" style="font-weight: bold; margin-top: 0.5rem;"></p>
         </div>
       </section>
     </div>
@@ -74,6 +75,7 @@ Ping me if you want me to swap in an embedded generator.
 
     <div id="toast" class="toast"></div>
 
+  <script src="scripts/qrcode.min.js"></script>
   <script>
     const qs = new URLSearchParams(location.search);
     const defaults = {
@@ -130,12 +132,26 @@ Ping me if you want me to swap in an embedded generator.
 
     // QR (optional)
     const qrWrap = document.getElementById('qrWrap');
+    const qrUrlEl = document.getElementById('qrUrl');
     if (cfg.qr !== '0'){
-      const qrImg = document.getElementById('qr');
-      const encoded = encodeURIComponent(cfg.ctaUrl);
-      // Public QR service (online). For an offline projector variant, swap this for an embedded generator.
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=480x480&data=${encoded}`;
-      qrWrap.style.display = 'grid';
+      qrWrap.innerHTML = ''; // Clear previous QR
+      try {
+        new QRCode(qrWrap, {
+            text: cfg.ctaUrl,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        qrUrlEl.textContent = 'ukuleletuesday.ie/donate';
+        qrWrap.style.display = 'grid';
+        qrUrlEl.style.display = 'block';
+      } catch (e) {
+        console.error('QR code generation failed', e);
+        qrWrap.textContent = 'Error generating QR code.';
+        qrUrlEl.style.display = 'none';
+      }
     }
 
     // Timer logic
@@ -265,13 +281,6 @@ Ping me if you want me to swap in an embedded generator.
       if (isInteractive(e.target)) return;
       setPaused(!paused);
     });
-
-    // QR fallback if the remote image fails
-    document.getElementById('qr')?.addEventListener('error', ()=>{
-      const wrap=document.getElementById('qrWrap');
-      if (wrap){ wrap.innerHTML = '<div class="cta-small">Open: '+cfg.ctaUrl+'</div>'; }
-    });
-
 
     // Initialize the pause state and controls visibility
     setPaused(paused);
