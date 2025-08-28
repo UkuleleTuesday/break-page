@@ -16,8 +16,9 @@ test.describe('QR Code Verification', () => {
     // 2. Locate the generated QR code image
     const qrWrap = page.locator('#qrWrap');
     await expect(qrWrap).toBeVisible();
-    // The library can render an `<img>` or a `<canvas>`, so we target both.
-    const qrCodeElement = page.locator('#qrWrap img, #qrWrap canvas');
+    // The library can render an `<img>` or a `<canvas>` and may leave both in the DOM.
+    // We target the one that is not hidden by `display: none`.
+    const qrCodeElement = page.locator('#qrWrap > *:not([style*="display: none"])');
 
     // Use expect.poll to wait for the QR code to have a positive size.
     await expect.poll(async () => {
