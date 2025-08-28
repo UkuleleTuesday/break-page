@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
-import Jimp from 'jimp';
-import QrCode from 'qrcode-reader';
+import { readBarcodes } from 'zxing-wasm/reader';
 
 test.describe('QR Code Verification', () => {
   test('should generate a QR code with the correct URL and display short URL', async ({ page }) => {
@@ -19,51 +18,21 @@ test.describe('QR Code Verification', () => {
     const qrCodeImage = page.locator('#qrWrap img');
     await expect(qrCodeImage).toBeVisible();
 
-    // 3. Get the base64 src and decode it
+    // 3. Get the base64 src and decode it using zxing-wasm
     const imgSrc = await qrCodeImage.getAttribute('src');
-    console.log('imgSrc:', imgSrc?.substring(0, 100) + '...'); // Log first 100 chars
     expect(imgSrc).not.toBeNull();
 
-    // Remove the data URL prefix
     const base64Data = imgSrc!.replace(/^data:image\/png;base64,/, '');
-    console.log('base64Data:', base64Data.substring(0, 100) + '...'); // Log first 100 chars
     const buffer = Buffer.from(base64Data, 'base64');
-    console.log('Buffer length:', buffer.length);
-    
-    const image = await Jimp.read(buffer);
-    image.greyscale().contrast(1); // Convert to high-contrast black and white
-    console.log('Jimp image bitmap:', {
-      width: image.bitmap.width,
-      height: image.bitmap.height,
-      dataLength: image.bitmap.data.length
-    });
 
-    const qr = new QrCode();
-    const result: string = await new Promise((resolve, reject) => {
-      qr.callback = (err: Error | null, value: { result: string } | null) => {
-        console.log('qrcode-reader callback triggered');
-        console.log('Error:', err);
-        console.log('Value:', value);
-
-        if (err) {
-          console.error('QR code decoding failed. Raw error:', err);
-          // Attempt to get a more detailed error message
-          const errorMessage = err.message || JSON.stringify(err);
-          return reject(new Error(`QR code decoding failed: ${errorMessage}`));
-        }
-        
-        if (!value || !value.result) {
-            console.warn('QR code decoded, but result is empty.');
-        }
-
-        resolve(value?.result || '');
-      };
-      
-      console.log('Attempting to decode image bitmap...');
-      qr.decode(image.bitmap);
+    const results = await readBarcodes(buffer, {
+      tryHarder: true,
+      formats: ['QRCode'],
+      maxNumberOfSymbols: 1,
     });
 
     // 4. Assert the decoded text matches the expected URL
-    expect(result).toBe(expectedUrl);
+    expect(results).toHaveLength(1);
+    expect(results[0].text).toBe(expectedUrl);
   });
 });
