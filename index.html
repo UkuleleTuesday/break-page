@@ -63,7 +63,7 @@ Ping me if you want me to swap in an embedded generator.
           <div id="qrWrap" class="qr" style="display:none; padding: 1rem; background: white; border-radius: 8px;">
             <!-- QR Code will be generated here -->
           </div>
-          <p id="qrUrl" class="cta-small" style="font-weight: bold; margin-top: 0.5rem;"></p>
+          <p id="qrUrl" class="cta-small"></p>
         </div>
       </section>
     </div>
@@ -84,7 +84,8 @@ Ping me if you want me to swap in an embedded generator.
       subtitle: '',
       headline: '',
       ctaText: 'Help Keep the Music Alive!',
-      ctaUrl: 'https://buymeacoffee.com/UkuleleTuesday?utm_source=projector&utm_medium=screen&utm_campaign=break-appeal',
+      qrCodeUrl: 'ukuleletuesday.ie/donate-qr',
+      fallbackDonateUrl: 'ukuleletuesday.ie/donate',
       note: 'Scan with your phone to support us ⬇️',
       qr: '1',
       logo: 'ut-logo-wordmark-white.png',
@@ -97,7 +98,8 @@ Ping me if you want me to swap in an embedded generator.
       subtitle: qs.get('subtitle') || defaults.subtitle,
       headline: qs.get('headline') || defaults.headline,
       ctaText: qs.get('ctaText') || defaults.ctaText,
-      ctaUrl: qs.get('ctaUrl') || defaults.ctaUrl,
+      qrCodeUrl: qs.get('ctaUrl') || defaults.qrCodeUrl,
+      fallbackDonateUrl: qs.get('fallbackDonateUrl') || defaults.fallbackDonateUrl,
       note: qs.get('note') || defaults.note,
       qr: (qs.get('qr') || defaults.qr),
       logo: qs.get('logo') || defaults.logo,
@@ -137,7 +139,7 @@ Ping me if you want me to swap in an embedded generator.
       qrWrap.innerHTML = ''; // Clear previous QR
       try {
         new QRCode(qrWrap, {
-            text: cfg.ctaUrl,
+            text: cfg.qrCodeUrl,
             width: 200,
             height: 200,
             colorDark: "#000000",
