@@ -32,6 +32,20 @@ export default defineConfig({
         ...devices['iPad Pro 11'],
         hasTouch: true,
       },
+    },
+    {
+      name: 'Desktop Chrome',
+      use: { 
+        ...devices['Desktop Chrome'],
+        hasTouch: false,
+      },
+    },
+    {
+      name: 'Galaxy Tab S9',
+      use: { 
+        ...devices['Galaxy Tab S9'],
+        hasTouch: true,
+      },
     }
   ],
 

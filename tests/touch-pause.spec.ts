@@ -12,7 +12,13 @@ test.describe('Touch Pause Functionality', () => {
     await page.evaluate(() => document.fonts.ready); // Wait for fonts to load
   });
 
-  test('should pause timer when tapping outside interactive elements', async ({ page }) => {
+  test('should pause timer when tapping outside interactive elements', async ({ page }, testInfo) => {
+    // Skip if device doesn't support touch
+    if (!testInfo.project.use?.hasTouch) {
+      test.skip(true, 'Touch not supported on this device');
+      return;
+    }
+    
     // Initially the timer should be paused (autostart=false)
     const pauseBtn = page.locator('#pauseBtn');
     await expect(pauseBtn).toHaveText('Resume');
@@ -37,7 +43,13 @@ test.describe('Touch Pause Functionality', () => {
     await expect(controls).not.toHaveClass(/hidden/);
   });
 
-  test('should not interfere with tapping interactive elements', async ({ page }) => {
+  test('should not interfere with tapping interactive elements', async ({ page }, testInfo) => {
+    // Skip if device doesn't support touch
+    if (!testInfo.project.use?.hasTouch) {
+      test.skip(true, 'Touch not supported on this device');
+      return;
+    }
+    
     // Initially paused, so controls are visible
     const pauseBtn = page.locator('#pauseBtn');
     await expect(pauseBtn).toHaveText('Resume');
@@ -58,7 +70,13 @@ test.describe('Touch Pause Functionality', () => {
     await expect(controls).not.toHaveClass(/hidden/);
   });
 
-  test('should not trigger pause when tapping QR code area', async ({ page }) => {
+  test('should not trigger pause when tapping QR code area', async ({ page }, testInfo) => {
+    // Skip if device doesn't support touch
+    if (!testInfo.project.use?.hasTouch) {
+      test.skip(true, 'Touch not supported on this device');
+      return;
+    }
+    
     // Start with timer running
     const pauseBtn = page.locator('#pauseBtn');
     await pauseBtn.click(); // Resume
@@ -78,7 +96,13 @@ test.describe('Touch Pause Functionality', () => {
     }
   });
 
-  test('should handle touch events on iPad Pro device', async ({ page }) => {
+  test('should handle touch events on iPad Pro device', async ({ page }, testInfo) => {
+    // Skip if device doesn't support touch
+    if (!testInfo.project.use?.hasTouch) {
+      test.skip(true, 'Touch not supported on this device');
+      return;
+    }
+    
     // This test specifically targets iPad behavior
     // Start timer
     const pauseBtn = page.locator('#pauseBtn');
