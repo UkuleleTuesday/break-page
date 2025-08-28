@@ -132,6 +132,13 @@ header img {
   font-size: clamp(13px, 3vmin, 16px);
 }
 
+#qrUrl {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
 .qr {
   display: grid;
   place-items: center;
