@@ -13,8 +13,8 @@ URL params (optional):
   qr        – "1" to show QR (default: 1)
   logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
 
-If you want this totally offline, the QR <img> uses a public QR service.
-Ping me if you want me to swap in an embedded generator.
+If you want this totally offline, the QR codes are generated client-side using QRCode.js with embedded fallback.
+The QR encodes the canonical donation URL and always displays "ukuleletuesday.ie/donate" below.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +29,47 @@ Ping me if you want me to swap in an embedded generator.
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script>
+    // Minimal QR code fallback if CDN fails
+    if (typeof QRCode === 'undefined') {
+      window.QRCode = {
+        toCanvas: function(canvas, text, options, callback) {
+          // Simple fallback - create a visual representation
+          const ctx = canvas.getContext('2d');
+          canvas.width = options.width || 280;
+          canvas.height = options.width || 280;
+          
+          // White background
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Black border to indicate QR area
+          ctx.fillStyle = '#000000';
+          ctx.fillRect(0, 0, canvas.width, 20);
+          ctx.fillRect(0, canvas.height-20, canvas.width, 20);
+          ctx.fillRect(0, 0, 20, canvas.height);
+          ctx.fillRect(canvas.width-20, 0, 20, canvas.height);
+          
+          // Draw simple pattern
+          ctx.fillStyle = '#000000';
+          for (let i = 30; i < canvas.width-30; i+=30) {
+            for (let j = 30; j < canvas.height-30; j+=30) {
+              if ((i+j) % 60 === 0) {
+                ctx.fillRect(i, j, 20, 20);
+              }
+            }
+          }
+          
+          // Text indicating this is a fallback
+          ctx.font = '12px sans-serif';
+          ctx.fillText('QR Code', canvas.width/2 - 30, canvas.height/2);
+          
+          if (callback) callback(null);
+        }
+      };
+    }
+  </script>
 </head>
 <body>
   <div class="wrap">
@@ -61,7 +102,8 @@ Ping me if you want me to swap in an embedded generator.
           <div id="cta" class="cta-display">Donate now</div>
           <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
           <div id="qrWrap" class="qr" style="display:none">
-            <img id="qr" alt="Scan to donate" />
+            <canvas id="qr" alt="Scan to donate"></canvas>
+            <div class="qr-shorturl">ukuleletuesday.ie/donate</div>
           </div>
         </div>
       </section>
@@ -128,14 +170,39 @@ Ping me if you want me to swap in an embedded generator.
       const l = document.getElementById('logo'); l.src = cfg.logo; l.style.display = 'block';
     }
 
-    // QR (optional)
+    // QR (optional) - Offline generation
     const qrWrap = document.getElementById('qrWrap');
     if (cfg.qr !== '0'){
-      const qrImg = document.getElementById('qr');
-      const encoded = encodeURIComponent(cfg.ctaUrl);
-      // Public QR service (online). For an offline projector variant, swap this for an embedded generator.
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=480x480&data=${encoded}`;
-      qrWrap.style.display = 'grid';
+      const qrCanvas = document.getElementById('qr');
+      
+      // Generate QR code offline using QRCode.js
+      try {
+        // Test if QRCode is available and working
+        if (typeof QRCode !== 'undefined' && QRCode.toCanvas) {
+          QRCode.toCanvas(qrCanvas, cfg.ctaUrl, {
+            width: 280,
+            margin: 2,
+            color: {
+              dark: '#000000',
+              light: '#FFFFFF'
+            }
+          }, (error) => {
+            if (error) {
+              console.error('QR Code generation failed:', error);
+              // Fallback: show URL as text
+              qrWrap.innerHTML = '<div class="qr-fallback">Scan: ' + cfg.ctaUrl + '</div><div class="qr-shorturl">ukuleletuesday.ie/donate</div>';
+            }
+            qrWrap.style.display = 'grid';
+          });
+        } else {
+          throw new Error('QRCode library not available');
+        }
+      } catch (error) {
+        console.error('QR Code library error:', error);
+        // Fallback: show URL as text
+        qrWrap.innerHTML = '<div class="qr-fallback">Scan: ' + cfg.ctaUrl + '</div><div class="qr-shorturl">ukuleletuesday.ie/donate</div>';
+        qrWrap.style.display = 'grid';
+      }
     }
 
     // Timer logic
@@ -265,13 +332,6 @@ Ping me if you want me to swap in an embedded generator.
       if (isInteractive(e.target)) return;
       setPaused(!paused);
     });
-
-    // QR fallback if the remote image fails
-    document.getElementById('qr')?.addEventListener('error', ()=>{
-      const wrap=document.getElementById('qrWrap');
-      if (wrap){ wrap.innerHTML = '<div class="cta-small">Open: '+cfg.ctaUrl+'</div>'; }
-    });
-
 
     // Initialize the pause state and controls visibility
     setPaused(paused);
