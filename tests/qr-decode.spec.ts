@@ -34,24 +34,11 @@ test.describe('QR Code Verification', () => {
       timeout: 7000,
     }).toBe(true);
 
-    // 3. Get the image data and decode it using zxing-wasm
-    const tagName = await qrCodeElement.evaluate(el => el.tagName);
-    let base64Data;
+    // 3. Take a screenshot of the page and decode the QR code from it
+    console.log('Taking a screenshot of the page...');
+    const buffer = await page.screenshot();
 
-    if (tagName === 'IMG') {
-      console.log('QR code rendered as <img> element.');
-      const imgSrc = await qrCodeElement.getAttribute('src');
-      expect(imgSrc, '<img> should have a "src" attribute.').not.toBeNull();
-      base64Data = imgSrc!.replace(/^data:image\/png;base64,/, '');
-    } else if (tagName === 'CANVAS') {
-      console.log('QR code rendered as <canvas> element.');
-      const dataUrl = await qrCodeElement.evaluate<string, HTMLCanvasElement>(canvas => canvas.toDataURL());
-      base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-    } else {
-      throw new Error(`Unexpected QR code element type: ${tagName}`);
-    }
-    const buffer = Buffer.from(base64Data, 'base64');
-
+    console.log('Decoding QR code from screenshot...');
     const results = await readBarcodes(buffer, {
       tryHarder: true,
       formats: ['QRCode'],
