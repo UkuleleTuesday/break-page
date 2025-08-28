@@ -21,13 +21,21 @@ test.describe('QR Code Verification', () => {
 
     // 3. Get the base64 src and decode it
     const imgSrc = await qrCodeImage.getAttribute('src');
+    console.log('imgSrc:', imgSrc?.substring(0, 100) + '...'); // Log first 100 chars
     expect(imgSrc).not.toBeNull();
 
     // Remove the data URL prefix
     const base64Data = imgSrc!.replace(/^data:image\/png;base64,/, '');
+    console.log('base64Data:', base64Data.substring(0, 100) + '...'); // Log first 100 chars
     const buffer = Buffer.from(base64Data, 'base64');
-
+    console.log('Buffer length:', buffer.length);
+    
     const image = await Jimp.read(buffer);
+    console.log('Jimp image bitmap:', {
+      width: image.bitmap.width,
+      height: image.bitmap.height,
+      dataLength: image.bitmap.data.length
+    });
 
     const qr = new QrCode();
     const result: string = await new Promise((resolve, reject) => {
