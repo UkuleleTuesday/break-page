@@ -5,3 +5,7 @@ node_modules/
 # Playwright
 playwright-report/
 test-results/
+
+# Screenshots and temporary documentation files
+*.png
+!ut-logo*.png
