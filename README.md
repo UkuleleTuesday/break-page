@@ -74,7 +74,6 @@ Everything is customizable via URL parameters:
 - `note` - Text under button (default: "Scan the code or tap the button")
 
 ### Display Options
-- `qr` - "1" to show QR code, "0" to hide (default: 1)
 - `logo` - URL/path to logo image (optional)
 
 ### Example URLs
@@ -91,7 +90,7 @@ https://ukuleletuesday.github.io/break-page/?title=Jazz%20Night%20will%20resume%
 
 **Light theme with custom donation:**
 ```
-https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&url=https://example.com/donate&qr=0
+https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&url=https://example.com/donate
 ```
 
 **With logo:**

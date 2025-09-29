@@ -12,7 +12,6 @@ URL params (optional):
   altUrl    – sets text link under QR only
   note      – line under the button (e.g., "Every €5 prints a songbook")
 
-  qr        – "1" to show QR (default: 1)
   logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
 
 If you want this totally offline, the QR <img> uses a public QR service.
@@ -92,7 +91,6 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: 'ukuleletuesday.ie/donate-qr',
       altUrl: 'ukuleletuesday.ie/donate',
       note: 'Time to grab a drink, tune up, chat with your neighbours, and hey, if you\'re having a good time, why not:',
-      qr: '1',
       logo: 'ut-logo-wordmark-white.png',
       autostart: 'false'
     };
@@ -107,7 +105,6 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: urlParam || qs.get('qrUrl') || qs.get('ctaUrl') /* legacy */ || defaults.qrUrl,
       altUrl: urlParam || qs.get('altUrl') || qs.get('fallbackDonateUrl') /* legacy */ || defaults.altUrl,
       note: qs.get('note') || defaults.note,
-      qr: (qs.get('qr') || defaults.qr),
       logo: qs.get('logo') || defaults.logo,
       autostart: (qs.get('autostart') || defaults.autostart)
     };
@@ -141,23 +138,21 @@ Ping me if you want me to swap in an embedded generator.
     // QR (optional)
     const qrWrap = document.getElementById('qrWrap');
     const qrUrlEl = document.getElementById('qrUrl');
-    if (cfg.qr !== '0'){
-      qrWrap.innerHTML = ''; // Clear previous QR
-      try {
-        new QRCode(qrWrap, {
-            text: cfg.qrUrl,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
-        qrUrlEl.textContent = cfg.altUrl;
-        qrWrap.style.display = 'grid';
-        qrUrlEl.style.display = 'block';
-      } catch (e) {
-        console.error('QR code generation failed', e);
-        qrWrap.textContent = 'Error generating QR code.';
-        qrUrlEl.style.display = 'none';
-      }
+    qrWrap.innerHTML = ''; // Clear previous QR
+    try {
+      new QRCode(qrWrap, {
+          text: cfg.qrUrl,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+      });
+      qrUrlEl.textContent = cfg.altUrl;
+      qrWrap.style.display = 'grid';
+      qrUrlEl.style.display = 'block';
+    } catch (e) {
+      console.error('QR code generation failed', e);
+      qrWrap.textContent = 'Error generating QR code.';
+      qrUrlEl.style.display = 'none';
     }
 
     // Timer logic
