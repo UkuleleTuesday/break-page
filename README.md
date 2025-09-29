@@ -32,7 +32,6 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 ### 🎨 **Projector & Display Ready**
 - **High-contrast design** with #0f8b81 teal background for excellent visibility
 - **Portrait-first responsive layout** optimized for tablets and projectors
-- **Dark/light theme support** for different lighting conditions
 - **Logo display** for branding
 
 ### 📵 **PWA Features**
@@ -59,7 +58,6 @@ Everything is customizable via URL parameters:
 
 ### Timer Settings
 - `minutes` or `m` - Total countdown minutes (default: 15)
-- `theme` - "dark" (default) or "light"
 
 ### Text Content  
 - `title` - Main headline (default: "Ukulele Tuesday will resume in")
@@ -88,9 +86,9 @@ https://ukuleletuesday.github.io/break-page/?minutes=10
 https://ukuleletuesday.github.io/break-page/?title=Jazz%20Night%20will%20resume%20in&subtitle=Quick%20intermission&minutes=8
 ```
 
-**Light theme with custom donation:**
+**With custom donation:**
 ```
-https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&url=https://example.com/donate
+https://ukuleletuesday.github.io/break-page/?ctaText=Support%20Us&url=https://example.com/donate
 ```
 
 **With logo:**
