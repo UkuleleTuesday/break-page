@@ -7,7 +7,9 @@ URL params (optional):
   title     – headline (default: "Ukulele Tuesday will resume in")
   subtitle  – small line above timer (default: "We’re on a short break")
   ctaText   – button text (default: "Donate now")
-  ctaUrl    – donation link (default: https://buymeacoffee.com/UkuleleTuesday)
+  url       – sets both QR code and the text link below it
+  qrUrl     – (or ctaUrl) sets QR code link only
+  altUrl    – sets text link under QR only
   note      – line under the button (e.g., "Every €5 prints a songbook")
 
   qr        – "1" to show QR (default: 1)
@@ -87,22 +89,23 @@ Ping me if you want me to swap in an embedded generator.
       subtitle: '',
       headline: '',
       ctaText: 'SUPPORT US',
-      qrCodeUrl: 'ukuleletuesday.ie/donate-qr',
-      fallbackDonateUrl: 'ukuleletuesday.ie/donate',
+      qrUrl: 'ukuleletuesday.ie/donate-qr',
+      altUrl: 'ukuleletuesday.ie/donate',
       note: 'Time to grab a drink, tune up, chat with your neighbours, and hey, if you\'re having a good time, why not:',
       qr: '1',
       logo: 'ut-logo-wordmark-white.png',
       autostart: 'false'
     };
 
+    const urlParam = qs.get('url');
     const cfg = {
       minutes: parseFloat(qs.get('minutes') || qs.get('m') || defaults.minutes) || defaults.minutes,
       title: qs.get('title') || defaults.title,
       subtitle: qs.get('subtitle') || defaults.subtitle,
       headline: qs.get('headline') || defaults.headline,
       ctaText: qs.get('ctaText') || defaults.ctaText,
-      qrCodeUrl: qs.get('ctaUrl') || defaults.qrCodeUrl,
-      fallbackDonateUrl: qs.get('fallbackDonateUrl') || defaults.fallbackDonateUrl,
+      qrUrl: urlParam || qs.get('qrUrl') || qs.get('ctaUrl') /* legacy */ || defaults.qrUrl,
+      altUrl: urlParam || qs.get('altUrl') || qs.get('fallbackDonateUrl') /* legacy */ || defaults.altUrl,
       note: qs.get('note') || defaults.note,
       qr: (qs.get('qr') || defaults.qr),
       logo: qs.get('logo') || defaults.logo,
@@ -142,12 +145,12 @@ Ping me if you want me to swap in an embedded generator.
       qrWrap.innerHTML = ''; // Clear previous QR
       try {
         new QRCode(qrWrap, {
-            text: cfg.qrCodeUrl,
+            text: cfg.qrUrl,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
-        qrUrlEl.textContent = 'ukuleletuesday.ie/donate';
+        qrUrlEl.textContent = cfg.altUrl;
         qrWrap.style.display = 'grid';
         qrUrlEl.style.display = 'block';
       } catch (e) {

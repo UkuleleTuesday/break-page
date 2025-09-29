@@ -67,8 +67,10 @@ Everything is customizable via URL parameters:
 - `headline` - Text above timer (default: "Tip: every €5 prints a songbook")
 
 ### Donation Settings
-- `ctaText` - Button text (default: "Donate now")  
-- `ctaUrl` - Donation link (default: Buy Me a Coffee with UTMs)
+- `ctaText` - Button text (default: "Donate now")
+- `url` - Sets both the QR code link and the visible text link underneath it.
+- `qrUrl` - Sets only the QR code's destination link. Overridden by `url`. (Legacy: `ctaUrl`)
+- `altUrl` - Sets only the visible text link under the QR code. Overridden by `url`.
 - `note` - Text under button (default: "Scan the code or tap the button")
 
 ### Display Options
@@ -89,7 +91,7 @@ https://ukuleletuesday.github.io/break-page/?title=Jazz%20Night%20will%20resume%
 
 **Light theme with custom donation:**
 ```
-https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&ctaUrl=https://example.com/donate&qr=0
+https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&url=https://example.com/donate&qr=0
 ```
 
 **With logo:**
