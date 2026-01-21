@@ -115,9 +115,7 @@ header img {
   align-items: center;
   gap: 18px;
   text-align: center;
-  padding-top: clamp(16px, 3.2vw, 28px);
   margin-top: clamp(16px, 3.2vw, 28px);
-  border-top: 1px solid rgba(255, 255, 255, .1);
 }
 
 .cta-display {
