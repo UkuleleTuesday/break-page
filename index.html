@@ -37,6 +37,19 @@ Ping me if you want me to swap in an embedded generator.
         <header>
           <div class="brand">
             <img id="logo" alt="Ukulele Tuesday logo" style="display:none; margin-bottom: 8px;" />
+
+            <div class="cta-area">
+              <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
+              <div id="cta" class="cta-display">Donate now</div>
+              <svg class="arrow-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 20,50 Q 50,30 80,40 L 70,28 M 80,40 L 67,50"></path>
+              </svg>
+              <div id="qrWrap" class="qr" style="display:none;">
+                <!-- QR Code will be generated here -->
+              </div>
+              <p id="qrUrl" class="cta-small"></p>
+            </div>
+
             <div class="sub" id="subtitle">We’re on a short break</div>
             <h1 id="title">Ukulele Tuesday will resume in</h1>
           </div>
@@ -56,18 +69,6 @@ Ping me if you want me to swap in an embedded generator.
           <div class="chip" id="resetBtn">Reset</div>
           <div class="chip" id="wakeLockBtn">Awake: OFF</div>
         </div>
-        
-        <div class="cta-area">
-          <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
-          <div id="cta" class="cta-display">Donate now</div>
-          <svg class="arrow-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 20,50 Q 50,30 80,40 L 70,28 M 80,40 L 67,50"></path>
-          </svg>
-          <div id="qrWrap" class="qr" style="display:none;">
-            <!-- QR Code will be generated here -->
-          </div>
-          <p id="qrUrl" class="cta-small"></p>
-        </div>
       </section>
     </div>
 
@@ -83,7 +84,7 @@ Ping me if you want me to swap in an embedded generator.
     const qs = new URLSearchParams(location.search);
     const defaults = {
       minutes: 10,
-      title: 'will resume in',
+      title: "we'll resume in",
       subtitle: '',
       headline: '',
       ctaText: 'SUPPORT US',
