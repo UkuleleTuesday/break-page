@@ -162,7 +162,7 @@ header img {
 
 .arrow-svg {
   position: absolute;
-  top: 60px;
+  top: 30px;
   left: 50%;
   transform: translateX(70px) translateY(40px) rotate(70deg) scale(.9);
   width: 100px;
