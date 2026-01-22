@@ -1,0 +1,1 @@
+docker run --rm -v ${PWD}:/work -w /work -it mcr.microsoft.com/playwright:latest npx playwright test --update-snapshots
