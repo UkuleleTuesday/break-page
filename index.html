@@ -8,7 +8,6 @@ URL params (optional):
   subtitle  – small line above timer (default: "We’re on a short break")
   ctaText   – button text (default: "Donate now")
   ctaUrl    – donation link (default: https://buymeacoffee.com/UkuleleTuesday)
-  note      – line under the button (e.g., "Every €5 prints a songbook")
 
   qr        – "1" to show QR (default: 1)
   logo      – URL/path to a logo image (optional). Place a local file like logo.svg next to this HTML and pass ?logo=logo.svg
@@ -39,7 +38,6 @@ Ping me if you want me to swap in an embedded generator.
             <img id="logo" alt="Ukulele Tuesday logo" style="display:none; margin-bottom: 8px;" />
 
             <div class="cta-area">
-              <div class="cta-small" id="ctaNote">Scan the QR code with your phone to donate</div>
               <div id="cta" class="cta-display">Donate now</div>
               <svg class="arrow-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 20,50 Q 50,30 80,40 L 70,28 M 80,40 L 67,50"></path>
@@ -90,7 +88,6 @@ Ping me if you want me to swap in an embedded generator.
       ctaText: 'SUPPORT US',
       qrCodeUrl: 'ukuleletuesday.ie/donate-qr',
       fallbackDonateUrl: 'ukuleletuesday.ie/donate',
-      note: 'Time to grab a drink, tune up, chat with your neighbours, and hey, if you\'re having a good time, why not:',
       qr: '1',
       logo: 'ut-logo-wordmark-white.png',
       autostart: 'false'
@@ -104,7 +101,6 @@ Ping me if you want me to swap in an embedded generator.
       ctaText: qs.get('ctaText') || defaults.ctaText,
       qrCodeUrl: qs.get('ctaUrl') || defaults.qrCodeUrl,
       fallbackDonateUrl: qs.get('fallbackDonateUrl') || defaults.fallbackDonateUrl,
-      note: qs.get('note') || defaults.note,
       qr: (qs.get('qr') || defaults.qr),
       logo: qs.get('logo') || defaults.logo,
       autostart: (qs.get('autostart') || defaults.autostart)
@@ -129,7 +125,6 @@ Ping me if you want me to swap in an embedded generator.
       headlineEl.style.display = 'none';
     }
     document.getElementById('cta').textContent = cfg.ctaText;
-    document.getElementById('ctaNote').textContent = cfg.note;
 
     // Logo (optional)
     if (cfg.logo){
