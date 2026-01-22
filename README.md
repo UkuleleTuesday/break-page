@@ -169,6 +169,7 @@ powershell -ExecutionPolicy Bypass -File .\update-snapshots.ps1
 And if running under a Linux distribution which has trouble with WebKit (e.g. KDE), use:
 
 ```
+chmod +x update-snapshots.sh
 ./update-snapshots.sh
 ```
 
