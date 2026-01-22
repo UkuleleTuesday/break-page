@@ -32,7 +32,6 @@ The break timer is live on GitHub Pages for immediate access. Bookmark this URL 
 ### 🎨 **Projector & Display Ready**
 - **High-contrast design** with #0f8b81 teal background for excellent visibility
 - **Portrait-first responsive layout** optimized for tablets and projectors
-- **Dark/light theme support** for different lighting conditions
 - **Logo display** for branding
 
 ### 📵 **PWA Features**
@@ -59,7 +58,6 @@ Everything is customizable via URL parameters:
 
 ### Timer Settings
 - `minutes` or `m` - Total countdown minutes (default: 15)
-- `theme` - "dark" (default) or "light"
 
 ### Text Content  
 - `title` - Main headline (default: "Ukulele Tuesday will resume in")
@@ -67,12 +65,13 @@ Everything is customizable via URL parameters:
 - `headline` - Text above timer (default: "Tip: every €5 prints a songbook")
 
 ### Donation Settings
-- `ctaText` - Button text (default: "Donate now")  
-- `ctaUrl` - Donation link (default: Buy Me a Coffee with UTMs)
+- `ctaText` - Button text (default: "Donate now")
+- `url` - Sets both the QR code link and the visible text link underneath it.
+- `qrUrl` - Sets only the QR code's destination link. Overridden by `url`. (Legacy: `ctaUrl`)
+- `altUrl` - Sets only the visible text link under the QR code. Overridden by `url`.
 - `note` - Text under button (default: "Scan the code or tap the button")
 
 ### Display Options
-- `qr` - "1" to show QR code, "0" to hide (default: 1)
 - `logo` - URL/path to logo image (optional)
 
 ### Example URLs
@@ -87,9 +86,9 @@ https://ukuleletuesday.github.io/break-page/?minutes=10
 https://ukuleletuesday.github.io/break-page/?title=Jazz%20Night%20will%20resume%20in&subtitle=Quick%20intermission&minutes=8
 ```
 
-**Light theme with custom donation:**
+**With custom donation:**
 ```
-https://ukuleletuesday.github.io/break-page/?theme=light&ctaText=Support%20Us&ctaUrl=https://example.com/donate&qr=0
+https://ukuleletuesday.github.io/break-page/?ctaText=Support%20Us&url=https://example.com/donate
 ```
 
 **With logo:**
