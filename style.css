@@ -149,6 +149,7 @@ header img {
   padding: 1rem;
   box-shadow: var(--shadow);
   margin: 0 auto;
+  z-index: 2; /* brings QR in front */
 }
 
 .qr img,
@@ -168,6 +169,7 @@ header img {
   width: 100px;
   height: 100px;
   pointer-events: none;
+  z-index: 1; /* keeps arrow behind QR */
 }
 
 .arrow-svg path {
