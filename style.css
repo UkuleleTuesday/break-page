@@ -115,9 +115,7 @@ header img {
   align-items: center;
   gap: 18px;
   text-align: center;
-  padding-top: clamp(16px, 3.2vw, 28px);
   margin-top: clamp(16px, 3.2vw, 28px);
-  border-top: 1px solid rgba(255, 255, 255, .1);
 }
 
 .cta-display {
@@ -151,6 +149,7 @@ header img {
   padding: 1rem;
   box-shadow: var(--shadow);
   margin: 0 auto;
+  z-index: 2; /* brings QR in front */
 }
 
 .qr img,
@@ -164,12 +163,13 @@ header img {
 
 .arrow-svg {
   position: absolute;
-  top: 60px;
+  top: 30px;
   left: 50%;
   transform: translateX(70px) translateY(40px) rotate(70deg) scale(.9);
   width: 100px;
   height: 100px;
   pointer-events: none;
+  z-index: 1; /* keeps arrow behind QR */
 }
 
 .arrow-svg path {

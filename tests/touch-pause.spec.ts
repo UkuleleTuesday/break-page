@@ -36,7 +36,7 @@ test.describe('Touch Pause Functionality', () => {
     
     // Now tap somewhere outside interactive elements to pause
     // Tap on the main timer area
-    await page.locator('#timer').tap();
+    await page.locator('#timer').tap({ force: true });
     
     // Timer should be paused and controls should be visible
     await expect(pauseBtn).toHaveText('Resume');
@@ -65,7 +65,7 @@ test.describe('Touch Pause Functionality', () => {
     
     // When controls are hidden, use background tap to pause (not button tap)
     // Tap on the timer area to pause
-    await page.locator('#timer').tap();
+    await page.locator('#timer').tap({ force: true });
     await expect(pauseBtn).toHaveText('Resume');
     await expect(controls).not.toHaveClass(/hidden/);
   });
@@ -110,7 +110,7 @@ test.describe('Touch Pause Functionality', () => {
     await expect(pauseBtn).toHaveText('Pause');
     
     // Use Playwright's tap to simulate a touch on the timer
-    await page.locator('#timer').tap();
+    await page.locator('#timer').tap({ force: true });
     
     // Should be paused after touch event
     await expect(pauseBtn).toHaveText('Resume');

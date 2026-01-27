@@ -160,6 +160,19 @@ If you make intentional changes to the UI, you will need to update the baseline 
 pnpm playwright test --update-snapshots
 ```
 
+If running under Windows, you should instead run:
+
+```
+powershell -ExecutionPolicy Bypass -File .\update-snapshots.ps1
+```
+
+And if running under a Linux distribution which has trouble with WebKit (e.g. KDE), use:
+
+```
+chmod +x update-snapshots.sh
+./update-snapshots.sh
+```
+
 Commit the updated snapshot file in the `tests/snapshot.spec.ts-snapshots/` directory along with your code changes.
 
 ## Deployment
