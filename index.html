@@ -98,14 +98,10 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: 'ukuleletuesday.ie/donate-qr',
       altUrl: 'ukuleletuesday.ie/donate',
       logo: 'ut-logo-wordmark-white.png',
-      autostart: 'false',
-      raised: 350,
-      goal: 500,
-      currency: '€'
+      autostart: 'false'
     };
 
     const urlParam = qs.get('url');
-    const num = (v, fallback)=>{ const n = parseFloat(v); return Number.isFinite(n) ? n : fallback; };
     const cfg = {
       minutes: parseFloat(qs.get('minutes') || qs.get('m') || defaults.minutes) || defaults.minutes,
       title: qs.get('title') || defaults.title,
@@ -115,10 +111,7 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: urlParam || qs.get('qrUrl') || qs.get('ctaUrl') /* legacy */ || defaults.qrUrl,
       altUrl: urlParam || qs.get('altUrl') || qs.get('fallbackDonateUrl') /* legacy */ || defaults.altUrl,
       logo: qs.get('logo') || defaults.logo,
-      autostart: (qs.get('autostart') || defaults.autostart),
-      raised: Math.max(0, num(qs.get('raised'), defaults.raised)),
-      goal: num(qs.get('goal'), defaults.goal),
-      currency: qs.get('currency') || defaults.currency
+      autostart: (qs.get('autostart') || defaults.autostart)
     };
 
 
@@ -166,12 +159,13 @@ Ping me if you want me to swap in an embedded generator.
       qrUrlEl.style.display = 'none';
     }
 
-    // Donation progress (prototype) — set once on load, independent of the countdown
+    // Donation progress (prototype) — hardcoded demo values, set once on load
     (function renderDonation(){
-      const fmtMoney = (n)=> cfg.currency + Math.round(n).toLocaleString();
-      const pct = cfg.goal > 0 ? Math.min(100, Math.max(0, (cfg.raised / cfg.goal) * 100)) : 0;
-      document.getElementById('donateRaised').textContent = fmtMoney(cfg.raised);
-      document.getElementById('donateGoal').textContent = fmtMoney(cfg.goal);
+      const RAISED = 350, GOAL = 500, CURRENCY = '€';
+      const fmtMoney = (n)=> CURRENCY + Math.round(n).toLocaleString();
+      const pct = GOAL > 0 ? Math.min(100, Math.max(0, (RAISED / GOAL) * 100)) : 0;
+      document.getElementById('donateRaised').textContent = fmtMoney(RAISED);
+      document.getElementById('donateGoal').textContent = fmtMoney(GOAL);
       document.getElementById('donatePct').textContent = pct >= 100
         ? 'Goal reached — thank you!'
         : `${Math.round(pct)}% of our goal`;
