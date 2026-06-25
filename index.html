@@ -47,6 +47,14 @@ Ping me if you want me to swap in an embedded generator.
                 <!-- QR Code will be generated here -->
               </div>
               <p id="qrUrl" class="cta-small"></p>
+
+              <div class="donate-progress" id="donateProgress">
+                <div class="donate-progress-label">
+                  <span id="donateRaised">€350</span> of <span id="donateGoal">€500</span> raised
+                </div>
+                <div class="progress donate-bar-track"><div class="bar donate-bar" id="donateBar"></div></div>
+                <div class="donate-progress-pct" id="donatePct">70% of our goal</div>
+              </div>
             </div>
 
             <div class="sub" id="subtitle">We’re on a short break</div>
@@ -90,10 +98,14 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: 'ukuleletuesday.ie/donate-qr',
       altUrl: 'ukuleletuesday.ie/donate',
       logo: 'ut-logo-wordmark-white.png',
-      autostart: 'false'
+      autostart: 'false',
+      raised: 350,
+      goal: 500,
+      currency: '€'
     };
 
     const urlParam = qs.get('url');
+    const num = (v, fallback)=>{ const n = parseFloat(v); return Number.isFinite(n) ? n : fallback; };
     const cfg = {
       minutes: parseFloat(qs.get('minutes') || qs.get('m') || defaults.minutes) || defaults.minutes,
       title: qs.get('title') || defaults.title,
@@ -103,7 +115,10 @@ Ping me if you want me to swap in an embedded generator.
       qrUrl: urlParam || qs.get('qrUrl') || qs.get('ctaUrl') /* legacy */ || defaults.qrUrl,
       altUrl: urlParam || qs.get('altUrl') || qs.get('fallbackDonateUrl') /* legacy */ || defaults.altUrl,
       logo: qs.get('logo') || defaults.logo,
-      autostart: (qs.get('autostart') || defaults.autostart)
+      autostart: (qs.get('autostart') || defaults.autostart),
+      raised: Math.max(0, num(qs.get('raised'), defaults.raised)),
+      goal: num(qs.get('goal'), defaults.goal),
+      currency: qs.get('currency') || defaults.currency
     };
 
 
@@ -150,6 +165,21 @@ Ping me if you want me to swap in an embedded generator.
       qrWrap.textContent = 'Error generating QR code.';
       qrUrlEl.style.display = 'none';
     }
+
+    // Donation progress (prototype) — set once on load, independent of the countdown
+    (function renderDonation(){
+      const fmtMoney = (n)=> cfg.currency + Math.round(n).toLocaleString();
+      const pct = cfg.goal > 0 ? Math.min(100, Math.max(0, (cfg.raised / cfg.goal) * 100)) : 0;
+      document.getElementById('donateRaised').textContent = fmtMoney(cfg.raised);
+      document.getElementById('donateGoal').textContent = fmtMoney(cfg.goal);
+      document.getElementById('donatePct').textContent = pct >= 100
+        ? 'Goal reached — thank you!'
+        : `${Math.round(pct)}% of our goal`;
+      const donateBar = document.getElementById('donateBar');
+      donateBar.style.width = '0%';
+      // Next frame so the CSS width transition plays as a one-time fill animation.
+      requestAnimationFrame(()=>{ donateBar.style.width = `${pct.toFixed(2)}%`; });
+    })();
 
     // Timer logic
     let totalMs = Math.max(0, Math.round(cfg.minutes * 60 * 1000));
